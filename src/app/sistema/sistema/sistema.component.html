@@ -1,0 +1,38 @@
+<div class="container">
+
+  <br>
+
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">SISTEMA</th>
+      <th scope="col">DATA ATUALIZAÇÃO</th>
+      <th scope="col">STATUS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sistema of sistemas">
+      <th>{{sistema.id}}</th>
+      <td>{{sistema.nome}}</td>
+      <td>{{sistema.dataAtualizacao}}</td>
+      <td>
+
+        <div class="form-check form-switch">
+          <input *ngIf="sistema.statusSistema" class="form-check-input" (change)="updateStatusSistema(sistema)"
+          type="checkbox" 
+          checked>
+                   
+          <input *ngIf="!sistema.statusSistema" class="form-check-input" (change)="updateStatusSistema(sistema)"
+          type="checkbox" 
+          >
+          <label class="form-check-label"
+          for="{{sistema.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}">
+          </label>
+        </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

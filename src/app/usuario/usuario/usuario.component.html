@@ -1,0 +1,38 @@
+<div class="container">
+
+  <br>
+
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">USUÁRIO</th>
+      <th scope="col">SENHA</th>
+      <th scope="col">STATUS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let usuario of usuarios">
+      <th>{{usuario.id}}</th>
+      <td>{{usuario.nome}}</td>
+      <td>{{usuario.senha}}</td>
+      <td>
+
+        <div class="form-check form-switch">
+          <input *ngIf="usuario.ativo" class="form-check-input" (change)="updateStatusUsuario(usuario)"
+          type="checkbox" 
+          checked>
+                   
+          <input *ngIf="!usuario.ativo" class="form-check-input" (change)="updateStatusUsuario(usuario)"
+          type="checkbox" 
+          >
+          <label class="form-check-label"
+          for="{{usuario.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}">
+          </label>
+        </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
