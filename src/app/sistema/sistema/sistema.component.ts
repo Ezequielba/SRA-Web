@@ -15,15 +15,34 @@ export class SistemaComponent implements OnInit {
   title = 'SRA-Web';
   sistemas?: Sistema[];
   sistema?: Sistema;
+  mostrarProcesso?: number;
+  mostrarId?: number;
 
   readonly apiURL : string;
 
   constructor(private http: HttpClient) {
-    this.apiURL = 'http://localhost:8080';
+    this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+    //this.apiURL = 'http://192.168.0.117:8080'; //Maquina Mestre.
   }
 
   ngOnInit() {
     this.getSistema();
+  }
+
+
+
+  alternarProcesso(_sistema: Sistema){
+    this.sistema = _sistema;
+    if(this.mostrarId == undefined){
+      this.mostrarProcesso = this.sistema.id;
+      this.mostrarId = this.sistema.id;
+    }else if(this.mostrarId == this.sistema.id){
+      this.mostrarProcesso = undefined;
+      this.mostrarId = undefined;
+    }else{
+      this.mostrarProcesso = this.sistema.id;
+      this.mostrarId = this.sistema.id;
+    }
   }
 
   getSistema() {
@@ -40,12 +59,12 @@ export class SistemaComponent implements OnInit {
     console.log (this.sistemas);
 
   }
-  
+
   updateStatusSistema(_sistema: Sistema) {
     this.sistema = _sistema;
     this.sistema.statusSistema = !this.sistema.statusSistema;
     console.log(this.sistema.statusSistema);
-    
+
     return this.http.put(`${ this.apiURL }/sistemas/` + this.sistema.id, this.sistema).
                   subscribe(
                 resultado => {
