@@ -22,7 +22,7 @@ export class SistemaComponent implements OnInit {
 
   constructor(private http: HttpClient) {
     this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
-    //this.apiURL = 'http://192.168.0.117:8080'; //Maquina Mestre.
+    //this.apiURL = 'http://10.240.3.89:8090'; //Servidor Produção.
   }
 
   ngOnInit() {

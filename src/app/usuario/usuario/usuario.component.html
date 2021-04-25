@@ -20,11 +20,11 @@
 
         <div class="form-check form-switch">
           <input *ngIf="usuario.ativo" class="form-check-input" (change)="updateStatusUsuario(usuario)"
-          type="checkbox" 
+          type="checkbox" onMouseOver="this.style.cursor='pointer'"
           checked>
                    
           <input *ngIf="!usuario.ativo" class="form-check-input" (change)="updateStatusUsuario(usuario)"
-          type="checkbox" 
+          type="checkbox" onMouseOver="this.style.cursor='pointer'"
           >
           <label class="form-check-label"
           for="{{usuario.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}">

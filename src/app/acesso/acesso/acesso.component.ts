@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Acesso } from 'src/app/_models/acesso';
-import { Usuario } from 'src/app/_models/Usuario';
 
 @Component({
   selector: 'app-acesso',
@@ -18,7 +17,8 @@ export class AcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient) {
-    this.apiURL = 'http://localhost:8080';
+    this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+    //this.apiURL = 'http://10.240.3.89:8090'; //Servidor Produção.
   }
 
   ngOnInit() {

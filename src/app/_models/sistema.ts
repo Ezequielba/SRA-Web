@@ -1,4 +1,4 @@
-import { Usuario } from "./Usuario";
+import { Usuario } from "./usuario";
 
 export class Sistema {
     constructor(){}
@@ -8,4 +8,3 @@ export class Sistema {
     dataAtualizacao?: Date;
     usuario?: Usuario;
   }
-
