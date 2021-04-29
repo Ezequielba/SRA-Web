@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
+import { Template } from '@angular/compiler/src/render3/r3_ast';
+import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Processo } from 'src/app/_models/processo';
 
 @Component({
@@ -12,16 +15,21 @@ export class ProcessoComponent implements OnInit {
   title = 'SRA-Web';
   processos?: Processo[];
   processo?: Processo;
+  bodyDeletarProcesso='';
 
   readonly apiURL : string;
 
-  constructor(private http: HttpClient) {
-    this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
-    //this.apiURL = 'http://10.240.3.89:8090'; //Servidor Produção.
+  constructor(private http: HttpClient, private toastr: ToastrService) {
+    //this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+    this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
   }
 
   ngOnInit() {
     this.getProcesso();
+  }
+
+  openModal(template: any) {
+    template.show();
   }
 
   getProcesso() {
@@ -57,6 +65,34 @@ export class ProcessoComponent implements OnInit {
                       break;
                     case 404:
                       console.log('Erro para alterar.');
+                      break;
+                  }
+                }
+              );
+  }
+
+  abrirModalExcluir(processo: Processo, template: any) {
+    this.openModal(template);
+    this.processo = processo;
+    this.bodyDeletarProcesso = `Tem certeza que deseja excluir o Evento: ${processo.nome}`;
+  }
+
+  excluirProcesso(template: any) {
+    
+    return this.http.delete(`${ this.apiURL }/processos/` + this.processo?.id).
+                  subscribe(
+                resultado => {
+                  template.hide();
+                  this.getProcesso();
+                  this.toastr.success('Excluído com sucesso!');
+                },
+                erro => {
+                  switch(erro.status) {
+                    case 400:
+                      console.log(erro.error.mensagem);
+                      break;
+                    case 404:
+                      this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
                       break;
                   }
                 }

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 
 import { CommonModule } from '@angular/common/';
 import { HttpClientModule } from '@angular/common/http';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SistemaComponent } from './sistema/sistema/sistema.component';
@@ -15,6 +16,11 @@ import { UsuarioComponent } from './usuario/usuario/usuario.component';
 import { SobreComponent } from './sobre/sobre/sobre.component';
 import { NavComponent } from './menu/nav/nav.component';
 import { RouterModule } from '@angular/router';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [	
@@ -32,9 +38,17 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ModalModule.forRoot(),
+    TooltipModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    })
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
