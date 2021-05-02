@@ -1,5 +1,11 @@
 <br>
 
+<div>
+  <button class="btn btn-outline-primary" (click)="novoSistema(template)">
+    <i class="fa fa-plus-circle"></i>&nbsp;
+    Novo sistema
+  </button>
+</div>
 <table class="table table-dark">
   <thead>
     <tr  class="header">
@@ -8,6 +14,8 @@
       <th scope="col">SISTEMA</th>
       <th scope="col">DATA ATUALIZAÇÃO</th>
       <th scope="col">STATUS</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody *ngFor="let sistema of sistemas">
@@ -30,11 +38,31 @@
           (change)="updateStatusSistema(sistema)">
           </div>
       </td>
+      <td>
+        <a title="Editar">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+          </span>
+      </a>
+      </td>
+
+      <td> 
+          <span class="icon" onMouseOver="this.style.cursor='pointer'" tooltip="Excluir">
+            <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalExcluir(sistema, confirm)" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          </span>
+      </td>
     </tr>
     <tr *ngIf="sistema.id == mostrarId">
       <td></td>
       <td>1</td>
       <td>BxlServer.exe</td>
+      <td>30/04/2021 21:12:56</td>
       <td colspan="2">
         <div class="form-check form-switch">
           <input *ngIf="sistema.usuario?.ativo" class="form-check-input" 
@@ -45,11 +73,13 @@
           >
           </div>
       </td>
+      <td></td>
     </tr>
     <tr *ngIf="sistema.id == mostrarId">
       <td></td>
       <td>2</td>
       <td>CompPkgSrv.exe</td>
+      <td>30/04/2021 21:12:56</td>
       <td colspan="2">
         <div class="form-check form-switch">
           <input *ngIf="sistema.usuario?.ativo" class="form-check-input"
@@ -60,11 +90,13 @@
           >
           </div>
       </td>
+      <td></td>
     </tr>
     <tr *ngIf="sistema.id == mostrarId">
       <td></td>
       <td>3</td>
       <td>BxlServer.exe</td>
+      <td>30/04/2021 21:12:56</td>
       <td colspan="2">
         <div class="form-check form-switch">
           <input *ngIf="sistema.usuario?.ativo" class="form-check-input"
@@ -75,11 +107,13 @@
           >
           </div>
       </td>
+      <td></td>
     </tr>
     <tr *ngIf="sistema.id == mostrarId">
       <td></td>
       <td>4</td>
       <td>fontdrvhost.exe</td>
+      <td>30/04/2021 21:12:56</td>
       <td colspan="2">
         <div class="form-check form-switch">
           <input *ngIf="sistema.usuario?.ativo" class="form-check-input"
@@ -90,11 +124,13 @@
           >
           </div>
       </td>
+      <td></td>
     </tr>
     <tr *ngIf="sistema.id == mostrarId">
       <td></td>
       <td>5</td>
       <td>conhost.exe</td>
+      <td>30/04/2021 21:12:56</td>
       <td colspan="2">
         <div class="form-check form-switch">
           <input *ngIf="sistema.usuario?.ativo" class="form-check-input"
@@ -105,43 +141,85 @@
           >
           </div>
       </td>
+        
+      <td></td>
     </tr>
 </tbody>
 </table>
 
+<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">
+          Deletando Processo
+        </h4>
+        <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{bodyDeletarSistema}}</p>
+      </div>
+      <div class="modal-footer btn-group d-flex">
+        <button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
+          CENCELAR
+        </button>
+        <button type="button" class="btn btn-outline-danger" (click)="excluirSistema(confirm)">
+          DELETAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!--
-<table class="table table-dark">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">SISTEMA</th>
-      <th scope="col">DATA ATUALIZAÇÃO</th>
-      <th scope="col">STATUS</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let sistema of sistemas">
-      <th>{{sistema.id}}</th>
-      <td>{{sistema.nome}}</td>
-      <td>{{sistema.dataAtualizacao}}</td>
-      <td>
-
-        <div class="form-check form-switch">
-          <input *ngIf="sistema.statusSistema" class="form-check-input" (change)="updateStatusSistema(sistema)"
-          type="checkbox"
-          checked>
-
-          <input *ngIf="!sistema.statusSistema" class="form-check-input" (change)="updateStatusSistema(sistema)"
-          type="checkbox"
-          >
-          <label class="form-check-label"
-          for="{{sistema.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}">
-          </label>
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+role="dialog" aria-labelledby="dialog-sizes-name1">
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+      <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form *ngIf="registerForm "[formGroup]="registerForm">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>Nome</label>
+            <input type="text" class="form-control is-invalid"
+            [ngClass]="{'is-invalid': registerForm?.get('nome')?.errors
+            && registerForm?.get('nome')?.touched}"
+            formControlName="nome" placeholder="Insira o nome">
+            <div *ngIf="registerForm?.get('nome')?.hasError('required')
+            && registerForm?.get('nome')?.touched" class="invalid-feedback">
+            nome é obrigatório.
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Data e Hora</label>
+            <input type="text" class="form-control" formControlName="dataAtualizacao"
+            bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY hh:mm a'}"
+            [ngClass]="{'is-invalid': registerForm.get('dataAtualizacao')?.errors
+            && registerForm.get('dataAtualizacao')?.touched}" placeholder="Insira a Data e Hora">
+            <div *ngIf="registerForm.get('dataAtualizacao')?.hasError('required')
+            && registerForm.get('dataAtualizacao')?.touched" class="invalid-feedback">
+            Data e Hora é obrigatório.
+            </div>
+          </div>
         </div>
-
-      </td>
-    </tr>
-  </tbody>
-</table>
--->
+      </form>
+</div>
+<div class="modal-footer d-flex">
+  <button class="btn btn-secondary" (click)="template.hide()">
+    Fechar
+  </button>
+  <button class="btn btn-primary ml-auto" (disabled)="!registerForm?.valid" (click)="salvarSistema(template)">
+    Salvar Alterações
+  </button>
+</div>
+</div>
+</div>
+</div>

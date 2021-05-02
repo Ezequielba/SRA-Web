@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Processo } from 'src/app/_models/processo';
 
@@ -15,21 +16,53 @@ export class ProcessoComponent implements OnInit {
   title = 'SRA-Web';
   processos?: Processo[];
   processo?: Processo;
+  registerForm?: FormGroup;
   bodyDeletarProcesso='';
+  
 
   readonly apiURL : string;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {
-    //this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
-    this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
+  constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
+    this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+    //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
   }
 
   ngOnInit() {
     this.getProcesso();
+    this.validation();
   }
 
-  openModal(template: any) {
+   openModal(template: any){
     template.show();
+  }
+
+  novoProcesso(template: any){
+    this.registerForm?.reset();
+    this.openModal(template);
+  }
+
+  salvarProcesso(template: any){
+    this.processo = Object.assign({}, this.registerForm?.value);
+    this.http.post(`${ this.apiURL }/processos/`, this.processo).
+                  subscribe(
+                resultado => {
+                  template.hide();
+                  this.getProcesso();
+                  console.log('Processo adicionado com sucesso');
+                  console.log(this.http.post);
+                },
+                erro => {
+                  switch(erro.status) {
+                    case 400:
+                      console.log(erro.error.mensagem);
+                      break;
+                    case 404:
+                      console.log('Erro para salvar.');
+                      break;
+                  }
+                }
+              );
+    
   }
 
   getProcesso() {
@@ -97,6 +130,13 @@ export class ProcessoComponent implements OnInit {
                   }
                 }
               );
+  }
+
+  validation(){
+    this.registerForm = this.fb.group({
+      nome: ['', Validators.required],
+      dataProcesso: ['', Validators.required]
+    });
   }
 
 }
