@@ -44,25 +44,24 @@ export class AcessoComponent implements OnInit {
   salvarAcesso(template: any){
     this.acesso = Object.assign({}, this.registerForm?.value);
     this.http.post(`${ this.apiURL }/acessos/`, this.acesso).
-                  subscribe(
-                resultado => {
-                  template.hide();
-                  this.getAcesso();
-                  console.log('Acesso adicionado com sucesso');
-                  console.log(this.http.post);
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      console.log('Erro para salvar.');
-                      break;
-                  }
-                }
-              );
-
+          subscribe(
+          resultado => {
+            template.hide();
+            this.getAcesso();
+            this.toastr.success('Acesso adicionado com sucesso');
+            console.log(this.http.post);
+          },
+          erro => {
+            switch(erro.status) {
+              case 400:
+                this.toastr.error(erro.error.mensagem);
+              break;
+              case 404:
+                this.toastr.error('Erro para salvar.');
+              break;
+            }
+          }
+        );
   }
 
   abrirModalExcluir(acesso: Acesso, template: any) {
@@ -72,40 +71,34 @@ export class AcessoComponent implements OnInit {
   }
 
   excluirAcesso(template: any) {
-
     return this.http.delete(`${ this.apiURL }/acessos/` + this.acesso?.id).
-                  subscribe(
-                resultado => {
-                  template.hide();
-                  this.getAcesso();
-                  this.toastr.success('Excluído com sucesso!');
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
-                      break;
-                  }
-                }
-              );
+            subscribe(
+            resultado => {
+              template.hide();
+              this.getAcesso();
+              this.toastr.success('Excluído com sucesso!');
+            },
+            erro => {
+              switch(erro.status) {
+                case 400:
+                  this.toastr.error(erro.error.mensagem);
+                break;
+                case 404:
+                  this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
+                break;
+              }
+            }
+          );
   }
 
   getAcesso() {
     this.http.get<Acesso[]>(`${this.apiURL}/acessos`).
     subscribe(response => {
         this.acessos = response;
-        console.log(this.acessos);
-
     },
     err => {
-        console.log("Error occured.");
+        this.toastr.error("Error occured.");
     });
-
-    console.log (this.acessos);
-
   }
 
   validation(){
@@ -119,5 +112,4 @@ export class AcessoComponent implements OnInit {
       start: ['', Validators.required],
     });
   }
-
 }

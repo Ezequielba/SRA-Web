@@ -45,64 +45,57 @@ export class ProcessoComponent implements OnInit {
   salvarProcesso(template: any){
     this.processo = Object.assign({}, this.registerForm?.value);
     this.http.post(`${ this.apiURL }/processos/`, this.processo).
-                  subscribe(
-                resultado => {
-                  template.hide();
-                  this.getProcesso();
-                  console.log('Processo adicionado com sucesso');
-                  console.log(this.http.post);
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      console.log('Erro para salvar.');
-                      break;
-                  }
-                }
-              );
-
+          subscribe(
+          resultado => {
+            template.hide();
+            this.getProcesso();
+            this.toastr.success('Processo adicionado com sucesso');
+            console.log(this.http.post);
+          },
+          erro => {
+            switch(erro.status) {
+              case 400:
+                this.toastr.error(erro.error.mensagem);
+              break;
+              case 404:
+                this.toastr.error('Erro para salvar.');
+              break;
+            }
+          }
+    );
   }
 
   getProcesso() {
     this.http.get<Processo[]>(`${this.apiURL}/processos`).
-    subscribe(response => {
+      subscribe(response => {
         this.processos = response;
-        console.log(this.processos);
-
     },
     err => {
-        console.log("Error occured.");
+      this.toastr.error("Error occured.");
     });
-
-    console.log (this.processos);
-
   }
 
   updateStatusProcesso(_processo: Processo) {
     this.processo = _processo;
     this.processo.statusProcesso = !this.processo.statusProcesso;
-    console.log(this.processo.statusProcesso, this.processo);
 
     return this.http.put(`${ this.apiURL }/processos/` + this.processo.id, this.processo).
-                  subscribe(
-                resultado => {
-                  console.log('Processo alterado com sucesso.')
-                  console.log(this.http.put)
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      console.log('Erro para alterar.');
-                      break;
-                  }
-                }
-              );
+            subscribe(
+            resultado => {
+              this.toastr.success('Processo alterado com sucesso.')
+              console.log(this.http.put)
+            },
+            erro => {
+              switch(erro.status) {
+                case 400:
+                  this.toastr.error(erro.error.mensagem);
+                break;
+                case 404:
+                  this.toastr.error('Erro para alterar.');
+                break;
+              }
+            }
+          );
   }
 
   abrirModalExcluir(processo: Processo, template: any) {
@@ -112,25 +105,24 @@ export class ProcessoComponent implements OnInit {
   }
 
   excluirProcesso(template: any) {
-
     return this.http.delete(`${ this.apiURL }/processos/` + this.processo?.id).
-                  subscribe(
-                resultado => {
-                  template.hide();
-                  this.getProcesso();
-                  this.toastr.success('Excluído com sucesso!');
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
-                      break;
-                  }
-                }
-              );
+            subscribe(
+            resultado => {
+              template.hide();
+              this.getProcesso();
+              this.toastr.success('Excluído com sucesso!');
+            },
+            erro => {
+              switch(erro.status) {
+                case 400:
+                  this.toastr.error(erro.error.mensagem);
+                break;
+                case 404:
+                  this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
+                break;
+              }
+            }
+          );
   }
 
   validation(){
@@ -139,5 +131,4 @@ export class ProcessoComponent implements OnInit {
       dataProcesso: ['', Validators.required]
     });
   }
-
 }

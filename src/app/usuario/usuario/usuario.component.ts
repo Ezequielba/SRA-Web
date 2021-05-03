@@ -43,40 +43,34 @@ export class UsuarioComponent implements OnInit {
   salvarUsuario(template: any){
     this.usuario = Object.assign({}, this.registerForm?.value);
     this.http.post(`${ this.apiURL }/usuarios/`, this.usuario).
-                  subscribe(
-                resultado => {
-                  template.hide();
-                  this.getUsuario();
-                  console.log('Usuario adicionado com sucesso');
-                  console.log(this.http.post);
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      console.log('Erro para salvar.');
-                      break;
-                  }
-                }
-              );
-
+    subscribe(
+      resultado => {
+        template.hide();
+        this.getUsuario();
+        this.toastr.success('Usuario adicionado com sucesso');
+        console.log(this.http.post);
+      },
+      erro => {
+        switch(erro.status) {
+          case 400:
+          this.toastr.error(erro.error.mensagem);
+          break;
+          case 404:
+          this.toastr.error('Erro para salvar.');
+          break;
+        }
+      }
+    );
   }
 
   getUsuario() {
     this.http.get<Usuario[]>(`${this.apiURL}/usuarios`).
-    subscribe(response => {
+      subscribe(response => {
         this.usuarios = response;
-        console.log(this.usuarios);
-
-    },
-    err => {
-        console.log("Error occured.");
-    });
-
-    console.log (this.usuarios);
-
+      },
+      err => {
+        this.toastr.error("Error occured.");
+      });
   }
 
   abrirModalExcluir(usuario: Usuario, template: any) {
@@ -86,49 +80,46 @@ export class UsuarioComponent implements OnInit {
   }
 
   excluirUsuario(template: any) {
-
     return this.http.delete(`${ this.apiURL }/usuarios/` + this.usuario?.id).
-                  subscribe(
-                resultado => {
-                  template.hide();
-                  this.getUsuario();
-                  this.toastr.success('Excluído com sucesso!');
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
-                      break;
-                  }
-                }
-              );
+      subscribe(
+        resultado => {
+          template.hide();
+          this.getUsuario();
+          this.toastr.success('Excluído com sucesso!');
+        },
+        erro => {
+          switch(erro.status) {
+            case 400:
+            this.toastr.error(erro.error.mensagem);
+            break;
+            case 404:
+            this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
+            break;
+          }
+        }
+      );
   }
 
   updateStatusUsuario(_usuario: Usuario) {
     this.usuario = _usuario;
     this.usuario.ativo = !this.usuario.ativo;
-    console.log(this.usuario.ativo, this.usuario);
 
     return this.http.put(`${ this.apiURL }/usuarios/` + this.usuario.id, this.usuario).
-                  subscribe(
-                resultado => {
-                  console.log('Usuario alterado com sucesso.')
-                  console.log(this.http.put)
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      console.log('Erro para alterar.');
-                      break;
-                  }
-                }
-              );
+      subscribe(
+        resultado => {
+          console.log(this.http.put)
+        },
+        erro => {
+          switch(erro.status) {
+            case 400:
+              this.toastr.error(erro.error.mensagem);
+            break;
+            case 404:
+              this.toastr.error('Erro para alterar.');
+            break;
+          }
+        }
+      );
   }
 
   validation(){
@@ -137,5 +128,4 @@ export class UsuarioComponent implements OnInit {
       senha: ['', Validators.required]
     });
   }
-
 }

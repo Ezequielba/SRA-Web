@@ -1,20 +1,15 @@
-import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { moment } from 'ngx-bootstrap/chronos/test/chain';
 import { Sistema } from '../../_models/sistema';
 import { ToastrService } from 'ngx-toastr';
 import { Processo } from 'src/app/_models/processo';
-
-
 
 @Component({
   selector: 'app-sistema',
   templateUrl: './sistema.component.html',
   styleUrls: ['./sistema.component.css']
 })
-
 
 export class SistemaComponent implements OnInit {
   title = 'SRA-Web';
@@ -26,8 +21,6 @@ export class SistemaComponent implements OnInit {
   mostrarId?: number;
   registerForm?: FormGroup;
   bodyDeletarSistema='';
-
-
 
   readonly apiURL : string;
 
@@ -55,25 +48,24 @@ export class SistemaComponent implements OnInit {
   salvarSistema(template: any){
     this.sistema = Object.assign({}, this.registerForm?.value);
     this.http.post(`${ this.apiURL }/sistemas/`, this.sistema).
-                  subscribe(
-                resultado => {
-                  template.hide();
-                  this.getSistema();
-                  console.log('Sistema adicionado com sucesso');
-                  console.log(this.http.post);
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      console.log('Erro para salvar.');
-                      break;
-                  }
-                }
-              );
-
+      subscribe(
+        resultado => {
+        template.hide();
+          this.getSistema();
+          this.toastr.success('Sistema adicionado com sucesso');
+          console.log(this.http.post);
+        },
+        erro => {
+          switch(erro.status) {
+            case 400:
+              this.toastr.error(erro.error.mensagem);
+            break;
+            case 404:
+              this.toastr.error('Erro para salvar.');
+            break;
+          }
+        }
+      );
   }
 
   alternarProcesso(_processo: Processo){
@@ -97,75 +89,66 @@ export class SistemaComponent implements OnInit {
   }
 
   excluirSistema(template: any) {
-
     return this.http.delete(`${ this.apiURL }/sistemas/` + this.sistema?.id).
-                  subscribe(
-                resultado => {
-                  template.hide();
-                  this.getSistema();
-                  this.toastr.success('Excluído com sucesso!');
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
-                      break;
-                  }
-                }
-              );
+      subscribe(
+      resultado => {
+        template.hide();
+        this.getSistema();
+        this.toastr.success('Excluído com sucesso!');
+      },
+      erro => {
+        switch(erro.status) {
+          case 400:
+            this.toastr.error(erro.error.mensagem);
+          break;
+          case 404:
+            this.toastr.error('Erro para Excluir!' + erro.error.mensagem);
+          break;
+        }
+      }
+    );
   }
-
 
   getSistema() {
     this.http.get<Sistema[]>(`${this.apiURL}/sistemas`).
-    subscribe(response => {
+      subscribe(response => {
         this.sistemas = response;
-        console.log(this.sistemas);
-
-    },
-    err => {
-        console.log("Error occured.");
-    });
-
-    console.log (this.sistemas);
-
+      },
+      err => {
+        this.toastr.success("Error occured.");
+      });
   }
+
   getProcessos() {
     this.http.get<Processo[]>(`${this.apiURL}/processos`).
-    subscribe(response => {
+      subscribe(response => {
         this.processos = response;
-        console.log("Teste: "+this.processos);
-    },
-    erro => {
+      },
+      erro => {
       this.toastr.error('Erro ao carregar Tabela!' + erro.error.mensagem);
     });
   }
 
   updateStatusSistema(_processo: Processo) {
     this.sistema = _processo.sistema;
-
     this.sistema!.statusSistema = !this.sistema?.statusSistema;
 
     return this.http.put(`${ this.apiURL }/sistemas/` + this.sistema?.id, this.sistema).
-                  subscribe(
-                resultado => {
-                  console.log('Status alterado com sucesso.')
-                  console.log(this.http.put)
-                },
-                erro => {
-                  switch(erro.status) {
-                    case 400:
-                      console.log(erro.error.mensagem);
-                      break;
-                    case 404:
-                      console.log('Erro para alterar.');
-                      break;
-                  }
+            subscribe(
+              resultado => {
+              console.log(this.http.put)
+              },
+              erro => {
+                switch(erro.status) {
+                  case 400:
+                    this.toastr.error(erro.error.mensagem);
+                  break;
+                  case 404:
+                    this.toastr.error('Erro para alterar.');
+                  break;
                 }
-              );
+              }
+            );
   }
 
   validation(){
