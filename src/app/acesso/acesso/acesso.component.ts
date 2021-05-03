@@ -21,8 +21,9 @@ export class AcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
+    this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -61,7 +62,7 @@ export class AcessoComponent implements OnInit {
                   }
                 }
               );
-    
+
   }
 
   abrirModalExcluir(acesso: Acesso, template: any) {
@@ -71,7 +72,7 @@ export class AcessoComponent implements OnInit {
   }
 
   excluirAcesso(template: any) {
-    
+
     return this.http.delete(`${ this.apiURL }/acessos/` + this.acesso?.id).
                   subscribe(
                 resultado => {

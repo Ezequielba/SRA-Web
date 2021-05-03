@@ -18,13 +18,14 @@ export class ProcessoComponent implements OnInit {
   processo?: Processo;
   registerForm?: FormGroup;
   bodyDeletarProcesso='';
-  
+
 
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
+    this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -62,7 +63,7 @@ export class ProcessoComponent implements OnInit {
                   }
                 }
               );
-    
+
   }
 
   getProcesso() {
@@ -84,7 +85,7 @@ export class ProcessoComponent implements OnInit {
     this.processo = _processo;
     this.processo.statusProcesso = !this.processo.statusProcesso;
     console.log(this.processo.statusProcesso, this.processo);
-    
+
     return this.http.put(`${ this.apiURL }/processos/` + this.processo.id, this.processo).
                   subscribe(
                 resultado => {
@@ -111,7 +112,7 @@ export class ProcessoComponent implements OnInit {
   }
 
   excluirProcesso(template: any) {
-    
+
     return this.http.delete(`${ this.apiURL }/processos/` + this.processo?.id).
                   subscribe(
                 resultado => {

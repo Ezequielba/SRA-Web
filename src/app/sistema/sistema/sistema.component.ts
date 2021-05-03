@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { moment } from 'ngx-bootstrap/chronos/test/chain';
 import { Sistema } from '../../_models/sistema';
 import { ToastrService } from 'ngx-toastr';
+import { Processo } from 'src/app/_models/processo';
 
 
 
@@ -19,6 +20,8 @@ export class SistemaComponent implements OnInit {
   title = 'SRA-Web';
   sistemas?: Sistema[];
   sistema?: Sistema;
+  processos: Processo[];
+  processo: Processo;
   mostrarProcesso?: number;
   mostrarId?: number;
   registerForm?: FormGroup;
@@ -29,13 +32,14 @@ export class SistemaComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    //this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
+    this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
-    this.getSistema();
+    //this.getSistema();
+    this.getProcessos();
     this.validation();
   }
 
@@ -69,31 +73,31 @@ export class SistemaComponent implements OnInit {
                   }
                 }
               );
-    
+
   }
 
-  alternarProcesso(_sistema: Sistema){
-    this.sistema = _sistema;
+  alternarProcesso(_processo: Processo){
+    this.sistema = _processo.sistema;
     if(this.mostrarId == undefined){
-      this.mostrarProcesso = this.sistema.id;
-      this.mostrarId = this.sistema.id;
-    }else if(this.mostrarId == this.sistema.id){
+      this.mostrarProcesso = this.sistema?.id;
+      this.mostrarId = this.sistema?.id;
+    }else if(this.mostrarId == this.sistema?.id){
       this.mostrarProcesso = undefined;
       this.mostrarId = undefined;
     }else{
-      this.mostrarProcesso = this.sistema.id;
-      this.mostrarId = this.sistema.id;
+      this.mostrarProcesso = this.sistema?.id;
+      this.mostrarId = this.sistema?.id;
     }
   }
 
-  abrirModalExcluir(sistema: Sistema, template: any) {
+  abrirModalExcluir(processo: Processo, template: any) {
     this.openModal(template);
-    this.sistema = sistema;
-    this.bodyDeletarSistema = `Tem certeza que deseja excluir o Evento: ${sistema.nome}`;
+    this.sistema = processo.sistema;
+    this.bodyDeletarSistema = `Tem certeza que deseja excluir o Evento: ${processo?.sistema?.nome}`;
   }
 
   excluirSistema(template: any) {
-    
+
     return this.http.delete(`${ this.apiURL }/sistemas/` + this.sistema?.id).
                   subscribe(
                 resultado => {
@@ -129,13 +133,23 @@ export class SistemaComponent implements OnInit {
     console.log (this.sistemas);
 
   }
+  getProcessos() {
+    this.http.get<Processo[]>(`${this.apiURL}/processos`).
+    subscribe(response => {
+        this.processos = response;
+        console.log("Teste: "+this.processos);
+    },
+    erro => {
+      this.toastr.error('Erro ao carregar Tabela!' + erro.error.mensagem);
+    });
+  }
 
-  updateStatusSistema(_sistema: Sistema) {
-    this.sistema = _sistema;
- 
-    this.sistema.statusSistema = !this.sistema.statusSistema;
+  updateStatusSistema(_processo: Processo) {
+    this.sistema = _processo.sistema;
 
-    return this.http.put(`${ this.apiURL }/sistemas/` + this.sistema.id, this.sistema).
+    this.sistema!.statusSistema = !this.sistema?.statusSistema;
+
+    return this.http.put(`${ this.apiURL }/sistemas/` + this.sistema?.id, this.sistema).
                   subscribe(
                 resultado => {
                   console.log('Status alterado com sucesso.')

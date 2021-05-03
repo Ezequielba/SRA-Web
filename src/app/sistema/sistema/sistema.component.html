@@ -18,24 +18,24 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody *ngFor="let sistema of sistemas">
+  <tbody *ngFor="let processo of processos">
     <tr>
-      <td> 
+      <td>
 
-        <i onMouseOver="this.style.cursor='pointer'" (click)="alternarProcesso(sistema)" class="{{sistema.id == mostrarProcesso ? 'far fa-minus-square' : 'far fa-plus-square'}}"></i>
+        <i onMouseOver="this.style.cursor='pointer'" (click)="alternarProcesso(processo)" class="{{processo.sistema?.id == mostrarProcesso ? 'far fa-minus-square' : 'far fa-plus-square'}}"></i>
 
       </td>
-      <td scope="col">{{sistema.id}} </td>
-      <td scope="col">{{sistema.nome}} </td>
-      <td scope="col">{{sistema.dataAtualizacao}}</td>
+      <td scope="col">{{processo.sistema?.id}} </td>
+      <td scope="col">{{processo.sistema?.nome}} </td>
+      <td scope="col">{{processo.sistema?.dataAtualizacao}}</td>
       <td scope="col">
         <div class="form-check form-switch">
-          <input *ngIf="sistema.statusSistema" class="form-check-input"
-          type="checkbox" id="{{sistema.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-          (change)="updateStatusSistema(sistema)" checked>
-          <input *ngIf="!sistema.statusSistema" class="form-check-input"
-          type="checkbox" id="{{sistema.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-          (change)="updateStatusSistema(sistema)">
+          <input *ngIf="processo.sistema?.statusSistema" class="form-check-input"
+          type="checkbox" id="{{processo.sistema?.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
+          (change)="updateStatusSistema(processo)" checked>
+          <input *ngIf="!processo.sistema?.statusSistema" class="form-check-input"
+          type="checkbox" id="{{processo.sistema?.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
+          (change)="updateStatusSistema(processo)">
           </div>
       </td>
       <td>
@@ -49,99 +49,30 @@
       </a>
       </td>
 
-      <td> 
+      <td>
           <span class="icon" onMouseOver="this.style.cursor='pointer'" tooltip="Excluir">
-            <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalExcluir(sistema, confirm)" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalExcluir(processo, confirm)" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
               <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
             </svg>
           </span>
       </td>
     </tr>
-    <tr *ngIf="sistema.id == mostrarId">
+    <tr *ngIf="processo.sistema?.id == mostrarId">
       <td></td>
-      <td>1</td>
-      <td>BxlServer.exe</td>
-      <td>30/04/2021 21:12:56</td>
+      <td>{{processo.id}}</td>
+      <td>{{processo.nome}}</td>
+      <td>{{processo.dataProcesso}}</td>
       <td colspan="2">
         <div class="form-check form-switch">
-          <input *ngIf="sistema.usuario?.ativo" class="form-check-input" 
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
+          <input *ngIf="processo.statusProcesso" class="form-check-input"
+          type="checkbox" id="{{processo.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
            checked>
-          <input *ngIf="!sistema.usuario?.ativo" class="form-check-input" 
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
+          <input *ngIf="!processo.statusProcesso" class="form-check-input"
+          type="checkbox" id="{{processo.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
           >
           </div>
       </td>
-      <td></td>
-    </tr>
-    <tr *ngIf="sistema.id == mostrarId">
-      <td></td>
-      <td>2</td>
-      <td>CompPkgSrv.exe</td>
-      <td>30/04/2021 21:12:56</td>
-      <td colspan="2">
-        <div class="form-check form-switch">
-          <input *ngIf="sistema.usuario?.ativo" class="form-check-input"
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-           checked>
-          <input *ngIf="!sistema.usuario?.ativo" class="form-check-input"
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-          >
-          </div>
-      </td>
-      <td></td>
-    </tr>
-    <tr *ngIf="sistema.id == mostrarId">
-      <td></td>
-      <td>3</td>
-      <td>BxlServer.exe</td>
-      <td>30/04/2021 21:12:56</td>
-      <td colspan="2">
-        <div class="form-check form-switch">
-          <input *ngIf="sistema.usuario?.ativo" class="form-check-input"
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-           checked>
-          <input *ngIf="!sistema.usuario?.ativo" class="form-check-input"
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-          >
-          </div>
-      </td>
-      <td></td>
-    </tr>
-    <tr *ngIf="sistema.id == mostrarId">
-      <td></td>
-      <td>4</td>
-      <td>fontdrvhost.exe</td>
-      <td>30/04/2021 21:12:56</td>
-      <td colspan="2">
-        <div class="form-check form-switch">
-          <input *ngIf="sistema.usuario?.ativo" class="form-check-input"
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-           checked>
-          <input *ngIf="!sistema.usuario?.ativo" class="form-check-input"
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-          >
-          </div>
-      </td>
-      <td></td>
-    </tr>
-    <tr *ngIf="sistema.id == mostrarId">
-      <td></td>
-      <td>5</td>
-      <td>conhost.exe</td>
-      <td>30/04/2021 21:12:56</td>
-      <td colspan="2">
-        <div class="form-check form-switch">
-          <input *ngIf="sistema.usuario?.ativo" class="form-check-input"
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-           checked>
-          <input *ngIf="!sistema.usuario?.ativo" class="form-check-input"
-          type="checkbox" id="{{sistema.usuario?.ativo ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-          >
-          </div>
-      </td>
-        
       <td></td>
     </tr>
 </tbody>
