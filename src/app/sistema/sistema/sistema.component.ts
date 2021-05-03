@@ -22,6 +22,8 @@ export class SistemaComponent implements OnInit {
   registerForm?: FormGroup;
   bodyDeletarSistema='';
 
+  modoSalvar = 'post'
+
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
@@ -41,31 +43,54 @@ export class SistemaComponent implements OnInit {
   }
 
   novoSistema(template: any){
+    this.modoSalvar = 'post';
     this.registerForm?.reset();
     this.openModal(template);
   }
 
+  editarSistema(processo: Processo, template: any){
+    this.modoSalvar = 'put';
+    this.openModal(template);
+    this.sistema = Object.assign({}, processo.sistema);
+    this.registerForm?.patchValue(this.sistema);
+  }
+
   salvarSistema(template: any){
-    this.sistema = Object.assign({}, this.registerForm?.value);
-    this.http.post(`${ this.apiURL }/sistemas/`, this.sistema).
-      subscribe(
-        resultado => {
-        template.hide();
-          this.getSistema();
-          this.toastr.success('Sistema adicionado com sucesso');
-          console.log(this.http.post);
-        },
-        erro => {
-          switch(erro.status) {
-            case 400:
-              this.toastr.error(erro.error.mensagem);
-            break;
-            case 404:
-              this.toastr.error('Erro para salvar.');
-            break;
+    if(this.modoSalvar == 'post'){
+      this.sistema = Object.assign({}, this.registerForm?.value);
+      this.http.post(`${ this.apiURL }/sistemas/`, this.sistema).
+        subscribe(
+          resultado => {
+          template.hide();
+            this.getSistema();
+            this.toastr.success('Sistema adicionado com sucesso');
+            console.log(this.http.post);
+          },
+          erro => {
+            switch(erro.status) {
+              case 400:
+                this.toastr.error(erro.error.mensagem);
+              break;
+              case 404:
+                this.toastr.error('Erro para salvar.');
+              break;
+            }
           }
-        }
+        );
+    }
+    else{
+      this.sistema = Object.assign({id: this.sistema?.id}, this.registerForm?.value);
+      this.http.put(`${ this.apiURL }/sistemas/` + this.sistema?.id ,this.sistema).subscribe(
+      () => {
+        template.hide();
+        this.getProcessos();
+        this.toastr.success('Atualizado com sucesso!');
+      }, error => {
+        this.toastr.error(`Erro ao tentar Atualizar: ${error}`);
+      }
       );
+    }
+
   }
 
   alternarProcesso(_processo: Processo){
