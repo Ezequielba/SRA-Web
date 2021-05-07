@@ -3,7 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Sistema } from '../../_models/sistema';
 import { ToastrService } from 'ngx-toastr';
+import { BsLocaleService } from "ngx-bootstrap/datepicker";
+import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
 import { Processo } from 'src/app/_models/processo';
+import { DatePipe } from '@angular/common';
+import { format } from 'date-fns';
+
+defineLocale('pt-br', ptBrLocale)
 
 @Component({
   selector: 'app-sistema',
@@ -13,12 +19,15 @@ import { Processo } from 'src/app/_models/processo';
 
 export class SistemaComponent implements OnInit {
   title = 'SRA-Web';
+
+  currentDataHora: any;
+
   sistemas?: Sistema[];
   sistema?: Sistema;
   processos: Processo[];
   processo: Processo;
   mostrarProcesso?: number;
-  mostrarId?: number;
+  mostrarId? = 0;
   registerForm?: FormGroup;
   bodyDeletarSistema='';
 
@@ -26,15 +35,21 @@ export class SistemaComponent implements OnInit {
 
   readonly apiURL : string;
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    //this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+  constructor(
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private localeService: BsLocaleService,
+    private datePipe: DatePipe
+    ) {
+      this.localeService.use('pt-br');
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
     this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
-    //this.getSistema();
-    this.getProcessos();
+    this.getSistema();
     this.validation();
   }
 
@@ -45,19 +60,22 @@ export class SistemaComponent implements OnInit {
   novoSistema(template: any){
     this.modoSalvar = 'post';
     this.registerForm?.reset();
+    this.currentDataHora = new Date();
     this.openModal(template);
   }
 
-  editarSistema(processo: Processo, template: any){
+  editarSistema(sistema: Sistema, template: any){
     this.modoSalvar = 'put';
+    this.currentDataHora = new Date();
     this.openModal(template);
-    this.sistema = Object.assign({}, processo.sistema);
+    this.sistema = Object.assign({}, sistema);
     this.registerForm?.patchValue(this.sistema);
   }
 
   salvarSistema(template: any){
     if(this.modoSalvar == 'post'){
       this.sistema = Object.assign({}, this.registerForm?.value);
+      this.sistema!.dataAtualizacao = this.currentDataHora;
       this.http.post(`${ this.apiURL }/sistemas/`, this.sistema).
         subscribe(
           resultado => {
@@ -83,7 +101,7 @@ export class SistemaComponent implements OnInit {
       this.http.put(`${ this.apiURL }/sistemas/` + this.sistema?.id ,this.sistema).subscribe(
       () => {
         template.hide();
-        this.getProcessos();
+        this.getSistema();
         this.toastr.success('Atualizado com sucesso!');
       }, error => {
         this.toastr.error(`Erro ao tentar Atualizar: ${error}`);
@@ -93,8 +111,8 @@ export class SistemaComponent implements OnInit {
 
   }
 
-  alternarProcesso(_processo: Processo){
-    this.sistema = _processo.sistema;
+  alternarProcesso(_sistema: Sistema){
+    this.sistema = _sistema;
     if(this.mostrarId == undefined){
       this.mostrarProcesso = this.sistema?.id;
       this.mostrarId = this.sistema?.id;
@@ -107,10 +125,10 @@ export class SistemaComponent implements OnInit {
     }
   }
 
-  abrirModalExcluir(processo: Processo, template: any) {
+  abrirModalExcluir(sistema: Sistema, template: any) {
     this.openModal(template);
-    this.sistema = processo.sistema;
-    this.bodyDeletarSistema = `Tem certeza que deseja excluir o Evento: ${processo?.sistema?.nome}`;
+    this.sistema = sistema;
+    this.bodyDeletarSistema = `Tem certeza que deseja excluir o Evento: ${sistema?.nome}`;
   }
 
   excluirSistema(template: any) {
@@ -140,12 +158,12 @@ export class SistemaComponent implements OnInit {
         this.sistemas = response;
       },
       err => {
-        this.toastr.success("Error occured.");
+        this.toastr.error("Error occured.");
       });
   }
 
-  getProcessos() {
-    this.http.get<Processo[]>(`${this.apiURL}/processos`).
+  getProcessos(sistema: Sistema) {
+    this.http.get<Processo[]>(`${this.apiURL}/processos/sistema/${sistema?.id}`).
       subscribe(response => {
         this.processos = response;
       },
@@ -154,14 +172,16 @@ export class SistemaComponent implements OnInit {
     });
   }
 
-  updateStatusSistema(_processo: Processo) {
-    this.sistema = _processo.sistema;
+  updateStatusSistema(_sistema: Sistema) {
+    this.sistema = _sistema;
     this.sistema!.statusSistema = !this.sistema?.statusSistema;
+    this.sistema.dataAtualizacao = new Date();
 
     return this.http.put(`${ this.apiURL }/sistemas/` + this.sistema?.id, this.sistema).
             subscribe(
               resultado => {
-              console.log(this.http.put)
+              this.getSistema();
+              this.toastr.success('Atualizado com sucesso!');
               },
               erro => {
                 switch(erro.status) {

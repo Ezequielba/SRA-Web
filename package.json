@@ -21,6 +21,8 @@
     "@angular/router": "~11.2.8",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "bootstrap": "^5.0.0-beta3",
+    "date-fns": "^2.21.2",
+    "moment": "^2.29.1",
     "ngx-bootstrap": "^6.2.0",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.6.0",

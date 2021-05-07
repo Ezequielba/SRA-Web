@@ -25,7 +25,7 @@ import { DatePipe } from "@angular/common"
 
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     SistemaComponent,
     ProcessoComponent,
@@ -49,7 +49,7 @@ import { DatePipe } from "@angular/common"
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-    })
+    }),
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, DatePipe],
   bootstrap: [AppComponent]

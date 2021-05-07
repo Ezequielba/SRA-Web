@@ -45,7 +45,7 @@
       </a>
       </td>
 
-      <td> 
+      <td>
           <span class="icon" onMouseOver="this.style.cursor='pointer'" tooltip="Excluir">
             <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalExcluir(acesso, confirm)" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -89,100 +89,114 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
 <div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastrar Acesso</h4>
       <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
+
+
       <form *ngIf="registerForm "[formGroup]="registerForm">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label>Hostname</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('hostname')?.errors
-            && registerForm?.get('hostname')?.touched}"
-            formControlName="hostname" placeholder="Insira o hostname">
-            <div *ngIf="registerForm?.get('hostname')?.hasError('required')
-            && registerForm?.get('hostname')?.touched" class="invalid-feedback">
-            Hostname é obrigatório.
-            </div>
+        <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+          <label>Hostname</label>
+          <input type="text" class="form-control is-invalid"
+          [ngClass]="{'is-invalid': registerForm?.get('hostname')?.errors
+          && registerForm?.get('hostname')?.touched}"
+          formControlName="hostname" placeholder="Insira o hostname">
+          <div *ngIf="registerForm?.get('hostname')?.hasError('required')
+          && registerForm?.get('hostname')?.touched" class="invalid-feedback">
+          Hostname é obrigatório.
           </div>
-
-          <div class="form-group col-md-12">
-            <label>IP</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('ip')?.errors
-            && registerForm?.get('ip')?.touched}"
-            formControlName="ip" placeholder="Insira o ip">
-            <div *ngIf="registerForm?.get('ip')?.hasError('required')
-            && registerForm?.get('ip')?.touched" class="invalid-feedback">
-            ip é obrigatório.
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label>Usuário</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('usuario')?.errors
-            && registerForm?.get('usuario')?.touched}"
-            formControlName="usuario" placeholder="Insira o usuario">
-            <div *ngIf="registerForm?.get('usuario')?.hasError('required')
-            && registerForm?.get('usuario')?.touched" class="invalid-feedback">
-            Usuário é obrigatório.
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label>Senha</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('senha')?.errors
-            && registerForm?.get('senha')?.touched}"
-            formControlName="senha" placeholder="Insira o senha">
-            <div *ngIf="registerForm?.get('senha')?.hasError('required')
-            && registerForm?.get('senha')?.touched" class="invalid-feedback">
-            Senha é obrigatório.
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label>Diretório</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('diretorio')?.errors
-            && registerForm?.get('diretorio')?.touched}"
-            formControlName="diretorio" placeholder="Insira o diretorio">
-            <div *ngIf="registerForm?.get('diretorio')?.hasError('required')
-            && registerForm?.get('diretorio')?.touched" class="invalid-feedback">
-            Diretório é obrigatório.
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label>Stop</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('stop')?.errors
-            && registerForm?.get('stop')?.touched}"
-            formControlName="stop" placeholder="Insira o stop">
-            <div *ngIf="registerForm?.get('stop')?.hasError('required')
-            && registerForm?.get('stop')?.touched" class="invalid-feedback">
-            Stop é obrigatório.
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label>Start</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('start')?.errors
-            && registerForm?.get('start')?.touched}"
-            formControlName="start" placeholder="Insira o start">
-            <div *ngIf="registerForm?.get('start')?.hasError('required')
-            && registerForm?.get('start')?.touched" class="invalid-feedback">
-            Start é obrigatório.
-            </div>
-          </div>
-
         </div>
-      </form>
+        </div>
+
+        <div class="col-md-7">
+          <div class="form-group">
+          <label>IP</label>
+          <input type="text" class="form-control is-invalid"
+          [ngClass]="{'is-invalid': registerForm?.get('ip')?.errors
+          && registerForm?.get('ip')?.touched}"
+          formControlName="ip" placeholder="Insira o ip">
+          <div *ngIf="registerForm?.get('ip')?.hasError('required')
+          && registerForm?.get('ip')?.touched" class="invalid-feedback">
+          ip é obrigatório.
+          </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-7">
+          <label>Usuário</label>
+          <input type="text" class="form-control is-invalid"
+          [ngClass]="{'is-invalid': registerForm?.get('usuario')?.errors
+          && registerForm?.get('usuario')?.touched}"
+          formControlName="usuario" placeholder="Insira o usuario">
+          <div *ngIf="registerForm?.get('usuario')?.hasError('required')
+          && registerForm?.get('usuario')?.touched" class="invalid-feedback">
+          Usuário é obrigatório.
+          </div>
+        </div>
+
+        <div class="form-group col-md-5">
+          <label>Senha</label>
+          <input type="text" class="form-control is-invalid"
+          [ngClass]="{'is-invalid': registerForm?.get('senha')?.errors
+          && registerForm?.get('senha')?.touched}"
+          formControlName="senha" placeholder="Insira o senha">
+          <div *ngIf="registerForm?.get('senha')?.hasError('required')
+          && registerForm?.get('senha')?.touched" class="invalid-feedback">
+          Senha é obrigatório.
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label>Diretório</label>
+          <input type="text" class="form-control is-invalid"
+          [ngClass]="{'is-invalid': registerForm?.get('diretorio')?.errors
+          && registerForm?.get('diretorio')?.touched}"
+          formControlName="diretorio" placeholder="Insira o diretorio">
+          <div *ngIf="registerForm?.get('diretorio')?.hasError('required')
+          && registerForm?.get('diretorio')?.touched" class="invalid-feedback">
+          Diretório é obrigatório.
+          </div>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label>Stop</label>
+          <input type="text" class="form-control is-invalid"
+          [ngClass]="{'is-invalid': registerForm?.get('stop')?.errors
+          && registerForm?.get('stop')?.touched}"
+          formControlName="stop" placeholder="Insira o stop">
+          <div *ngIf="registerForm?.get('stop')?.hasError('required')
+          && registerForm?.get('stop')?.touched" class="invalid-feedback">
+          Stop é obrigatório.
+          </div>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label>Start</label>
+          <input type="text" class="form-control is-invalid"
+          [ngClass]="{'is-invalid': registerForm?.get('start')?.errors
+          && registerForm?.get('start')?.touched}"
+          formControlName="start" placeholder="Insira o start">
+          <div *ngIf="registerForm?.get('start')?.hasError('required')
+          && registerForm?.get('start')?.touched" class="invalid-feedback">
+          Start é obrigatório.
+          </div>
+        </div>
+
+        <div formGroupName="sistema">
+          <label>Sistema</label>
+          <select id="sistemaId" class="form-control" formControlName="id">
+            <option selected>Escolha...</option>
+            <option value="{{_sistema.id}}" *ngFor="let _sistema of sistemas;">{{_sistema.nome}}</option>
+          </select>
+        </div>
+      </div>
+
+    </form>
 </div>
 <div class="modal-footer d-flex">
   <button class="btn btn-secondary" (click)="template.hide()">

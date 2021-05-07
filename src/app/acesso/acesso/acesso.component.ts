@@ -1,27 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Acesso } from 'src/app/_models/acesso';
+import { Sistema } from 'src/app/_models/sistema';
 
 @Component({
   selector: 'app-acesso',
   templateUrl: './acesso.component.html',
   styleUrls: ['./acesso.component.css']
 })
-export class AcessoComponent implements OnInit {
 
+export class AcessoComponent implements OnInit {
 
   title = 'SRA-Web';
   acessos?: Acesso[];
   acesso?: Acesso;
+  sistemas?: Sistema[];
+  _sistema?: Sistema;
+  sistema?: FormGroup;
   registerForm?: FormGroup;
   bodyDeletarAcesso='';
 
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    //this.apiURL = 'http://localhost:8080'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
     this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
@@ -39,6 +43,7 @@ export class AcessoComponent implements OnInit {
   novoAcesso(template: any){
     this.registerForm?.reset();
     this.openModal(template);
+    this.getSistema();
   }
 
   salvarAcesso(template: any){
@@ -101,6 +106,16 @@ export class AcessoComponent implements OnInit {
     });
   }
 
+  getSistema() {
+    this.http.get<Sistema[]>(`${this.apiURL}/sistemas`).
+      subscribe(response => {
+        this.sistemas = response;
+      },
+      err => {
+        this.toastr.error("Error occured.");
+      });
+  }
+
   validation(){
     this.registerForm = this.fb.group({
       hostname: ['', Validators.required],
@@ -110,6 +125,9 @@ export class AcessoComponent implements OnInit {
       diretorio: ['', Validators.required],
       stop: ['', Validators.required],
       start: ['', Validators.required],
+      sistema: this.fb.group({
+        id: [''],
+      })
     });
   }
 }
