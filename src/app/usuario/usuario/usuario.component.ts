@@ -13,17 +13,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class UsuarioComponent implements OnInit {
 
   title = 'SRA-Web';
+
+  currentDataHora: any;
+
   usuarios?: Usuario[];
   usuario?: Usuario;
   registerForm?: FormGroup;
   bodyDeletarUsuario='';
 
+  modoSalvar = 'post'
+
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
+    //this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -36,11 +41,13 @@ export class UsuarioComponent implements OnInit {
   }
 
   novoUsuario(template: any){
+    this.modoSalvar = 'post';
     this.registerForm?.reset();
     this.openModal(template);
   }
 
   salvarUsuario(template: any){
+    if(this.modoSalvar == 'post'){
     this.usuario = Object.assign({}, this.registerForm?.value);
     this.http.post(`${ this.apiURL }/usuarios/`, this.usuario).
     subscribe(
@@ -61,6 +68,19 @@ export class UsuarioComponent implements OnInit {
         }
       }
     );
+  }
+  else{
+    this.usuario = Object.assign({id: this.usuario?.id}, this.registerForm?.value);
+    this.http.put(`${ this.apiURL }/usuarios/` + this.usuario?.id ,this.usuario).subscribe(
+    () => {
+      template.hide();
+      this.getUsuario();
+      this.toastr.success('Atualizado com sucesso!');
+    }, error => {
+      this.toastr.error(`Erro ao tentar Atualizar: ${error}`);
+    }
+    );
+  }
   }
 
   getUsuario() {
@@ -120,6 +140,16 @@ export class UsuarioComponent implements OnInit {
           }
         }
       );
+  }
+
+  editarUsuario(usuario: Usuario, template: any){
+    this.modoSalvar = 'put';
+    this.registerForm?.reset();
+    this.currentDataHora = new Date();
+    this.openModal(template);
+    this.usuario = Object.assign({}, usuario);
+    this.registerForm?.patchValue(this.usuario);
+    //this.getUsuario();
   }
 
   validation(){

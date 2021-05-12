@@ -2,27 +2,24 @@
 
 <div>
   <button class="btn btn-outline-primary" (click)="novoSistema(template)">
-    <i class="fa fa-plus-circle"></i>&nbsp;
+    <i class="fa fa-plus-circle"></i>
     Novo sistema
   </button>
 </div>
 
 <div class="container"  style="padding-right: 0rem; padding-left: 0rem;">
-  <table class="table table-dark" *ngFor="let sistema of sistemas; let in = index"  style="margin-bottom: 0rem;">
-    <thead *ngIf="in == 0">
+  <table class="table table-dark" style="margin-bottom: 0rem;">
+    <thead>
       <tr>
         <th>#</th>
         <th>Id</th>
         <th>Sistema</th>
         <th>Data Atualização</th>
         <th>Status</th>
-        <th colspan="2">Ação</th>
+        <th colspan="2" style="text-align: center;">Ação</th>
       </tr>
     </thead>
-    <tbody>
-      <td colspan="6">
-        <table class="table table-dark" style="margin-bottom: 0rem;">
-          <tbody class="labels">
+    <tbody *ngFor="let sistema of sistemas">
             <tr>
               <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">
                 <i onMouseOver="this.style.cursor='pointer'" class="{{sistema?.id == mostrarProcesso ? 'far fa-minus-square' : 'far fa-plus-square'}}"></i>
@@ -41,7 +38,7 @@
                   </div>
               </td>
               <td>
-                  <span class="icon" onMouseOver="this.style.cursor='pointer'" tooltip="Editar" (click)="editarSistema(sistema, template)">
+                  <span class="icon" style="float: right;" onMouseOver="this.style.cursor='pointer'" tooltip="Editar" (click)="editarSistema(sistema, template)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
                       <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                       <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -57,8 +54,8 @@
                 </span>
               </td>
             </tr>
-          </tbody>
-      </table>
+
+      <td colspan="7">
       <table class="table table-striped" *ngIf="sistema?.id == mostrarId">
         <thead>
           <tr>
@@ -72,19 +69,28 @@
           <tr *ngFor="let processo of processos">
             <td>#</td>
             <td>{{processo?.nome}}</td>
-            <td>{{processo?.dataProcesso}}</td>
+            <td>{{processo?.dataProcesso | date: "dd/MM/yyyy HH:mm:ss"}}</td>
             <td>
               <div class="form-check form-switch">
-                <input *ngIf="processo?.statusProcesso" class="form-check-input"
+                <input *ngIf="processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
                 type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
                  checked>
-                <input *ngIf="!processo?.statusProcesso" class="form-check-input"
+                <input *ngIf="!processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
                 type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
                 >
               </div>
             </td>
           </tr>
         </tbody>
+        <tfoot *ngIf="!processos?.length">
+          <tr>
+            <td colspan="7" class="text-center">
+              <h6>
+                Nenhum processos associado!
+              </h6>
+            </td>
+          </tr>
+        </tfoot>
       </table>
       </td>
     </tbody>
@@ -142,17 +148,22 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
             nome é obrigatório.
             </div>
           </div>
-        <div class="d-flex">
+
+
+          <div class="d-flex">
           <div class="form-group col-md-4">
             <label>Data e Hora</label>
             <input type="text" class="form-control" formControlName="dataAtualizacao"
              value="{{currentDataHora | date: 'dd/MM/yyyy HH:mm:ss'}}" readonly>
           </div>
-          <div style="padding-left: 2rem; padding-right: 2rem;"></div>
-          <div class="form-group col-md-7">
+          
+          
+          <div formGroupName="usuario">
             <label>Usuario</label>
-            <input type="text" class="form-control"
-             value="Fulano..." readonly>
+            <select id="usuarioId" class="form-control" formControlName="id">
+              <option selected>Escolha...</option>
+              <option value="{{_usuario.id}}" *ngFor="let _usuario of usuarios;">{{_usuario.nome}}</option>
+            </select>
           </div>
         </div>
       </div>

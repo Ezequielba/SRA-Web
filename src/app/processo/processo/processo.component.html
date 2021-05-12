@@ -26,7 +26,7 @@
       <th>{{processo.id}}</th>
       <td>{{processo.nome}}</td>
       <td>{{processo.sistema?.nome}}</td>
-      <td>{{processo.dataProcesso}}</td>
+      <td>{{processo.dataProcesso | date: "dd/MM/yyyy HH:mm:ss"}}</td>
       <td>
 
         <div class="form-check form-switch">
@@ -45,7 +45,7 @@
       </td>
       <td>
         <a title="Editar">
-          <span class="icon">
+          <span class="icon" onMouseOver="this.style.cursor='pointer'" tooltip="Editar" (click)="editarProcesso(processo, template)">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -107,27 +107,59 @@ role="dialog" aria-labelledby="dialog-sizes-name1">
     </div>
     <div class="modal-body">
       <form *ngIf="registerForm "[formGroup]="registerForm">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label>Nome</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('nome')?.errors
-            && registerForm?.get('nome')?.touched}"
-            formControlName="nome" placeholder="Insira o nome">
-            <div *ngIf="registerForm?.get('nome')?.hasError('required')
-            && registerForm?.get('nome')?.touched" class="invalid-feedback">
-            nome é obrigatório.
+
+        <div class="row">
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Nome</label>
+              <input type="text" class="form-control is-invalid"
+              [ngClass]="{'is-invalid': registerForm?.get('nome')?.errors
+              && registerForm?.get('nome')?.touched}"
+              formControlName="nome" placeholder="Insira o nome">
+              <div *ngIf="registerForm?.get('nome')?.hasError('required')
+              && registerForm?.get('nome')?.touched" class="invalid-feedback">
+              nome é obrigatório.
+              </div>
+            </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-5">
+                <div formGroupName="acesso">
+                  <label>Acesso</label>
+                  <select id="acessoId" class="form-control" formControlName="id">
+                    <option selected>Escolha...</option>
+                    <option value="{{_acesso.id}}" *ngFor="let _acesso of acessos;">{{_acesso.hostname}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <div class="form-group">
+                    <div formGroupName="sistema">
+                      <label>Sistema</label>
+                      <select id="sistemaId" class="form-control" formControlName="id">
+                        <option selected>Escolha...</option>
+                        <option value="{{_sistema.id}}" *ngFor="let _sistema of sistemas;">{{_sistema.nome}}</option>
+                      </select>
+                    </div>
+                </div>
+
+              </div>
             </div>
           </div>
-          <div class="form-group col-md-4">
+      
+          <div class="col-md-3">
+            <div class="form-group">
             <label>Data e Hora</label>
             <input type="text" class="form-control" formControlName="dataProcesso"
-            bsDatepicker
-            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY hh:mm a'}"
-            [ngClass]="{'is-invalid': registerForm.get('dataProcesso')?.errors
-            && registerForm.get('dataProcesso')?.touched}" placeholder="Insira a Data e Hora">
-            <div *ngIf="registerForm.get('dataProcesso')?.hasError('required')
-            && registerForm.get('dataProcesso')?.touched" class="invalid-feedback">
+            value="{{currentDataHora | date: 'dd/MM/yyyy HH:mm:ss'}}" readonly
+
+            [ngClass]="{'is-invalid': registerForm?.get('dataProcesso')?.errors
+            && registerForm?.get('dataProcesso')?.touched}" placeholder="Insira a Data e Hora">
+            <div *ngIf="registerForm?.get('dataProcesso')?.hasError('required')
+            && registerForm?.get('dataProcesso')?.touched" class="invalid-feedback">
             Data e Hora é obrigatório.
             </div>
           </div>
