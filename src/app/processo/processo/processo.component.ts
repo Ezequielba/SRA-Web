@@ -1,6 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { Template } from '@angular/compiler/src/render3/r3_ast';
-import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -15,8 +13,11 @@ import { Usuario } from 'src/app/_models/usuario';
   styleUrls: ['./processo.component.css']
 })
 export class ProcessoComponent implements OnInit {
-
   title = 'SRA-Web';
+  bodyDeletarProcesso='';
+  currentDataHora: any;
+  modoSalvar = 'post';
+
   processos?: Processo[];
   processo?: Processo;
   acessos?: Acesso[];
@@ -24,21 +25,16 @@ export class ProcessoComponent implements OnInit {
   acesso?: FormGroup;
   sistemas?: Sistema[];
   _sistema?: Sistema;
-  usuarios?: Usuario[];
-  _usuario?: Usuario;
   sistema?: FormGroup;
-  registerForm?: FormGroup;
-  bodyDeletarProcesso='';
-  currentDataHora: any;
 
-  modoSalvar = 'post'
+  registerForm?: FormGroup;
 
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    //this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
+    this.apiURL = 'http://192.168.0.121:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -69,7 +65,6 @@ export class ProcessoComponent implements OnInit {
             template.hide();
             this.getProcesso();
             this.toastr.success('Processo adicionado com sucesso');
-            console.log(this.http.post);
           },
           erro => {
             switch(erro.status) {
@@ -106,16 +101,6 @@ export class ProcessoComponent implements OnInit {
     this.registerForm?.patchValue(this.processo);
     this.getAcesso();
     this.getSistema();
-  }
-
-  getUsuario() {
-    this.http.get<Usuario[]>(`${this.apiURL}/usuarios`).
-    subscribe(response => {
-        this.usuarios = response;
-    },
-    err => {
-        this.toastr.error("Error occured.");
-    });
   }
 
   getProcesso() {
@@ -175,7 +160,7 @@ export class ProcessoComponent implements OnInit {
   abrirModalExcluir(processo: Processo, template: any) {
     this.openModal(template);
     this.processo = processo;
-    this.bodyDeletarProcesso = `Tem certeza que deseja excluir o Evento: ${processo.nome}`;
+    this.bodyDeletarProcesso = `Tem certeza que deseja deletar este Processo: ${processo.nome}`;
   }
 
   excluirProcesso(template: any) {
@@ -197,6 +182,12 @@ export class ProcessoComponent implements OnInit {
               }
             }
           );
+  }
+
+  validaModoSalvar(valor1: any | undefined, valor2: any | undefined){
+    var resultado = this.modoSalvar == "post" ? valor1 : valor2;
+    console.log(resultado);
+    return resultado;
   }
 
   validation(){

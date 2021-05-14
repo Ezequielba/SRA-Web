@@ -1,3 +1,5 @@
+import { Sistema } from "./sistema";
+
 export class Acesso {
     constructor(){}
     id?: number;
@@ -8,5 +10,6 @@ export class Acesso {
     diretorio?: string;
     stop?: string;
     start?: string;
+    sistema?: Sistema;
   }
 

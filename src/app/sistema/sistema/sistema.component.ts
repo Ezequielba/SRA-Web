@@ -6,9 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BsLocaleService } from "ngx-bootstrap/datepicker";
 import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
 import { Processo } from 'src/app/_models/processo';
-import { DatePipe } from '@angular/common';
 import { Usuario } from 'src/app/_models/usuario';
-
 defineLocale('pt-br', ptBrLocale)
 
 @Component({
@@ -19,9 +17,14 @@ defineLocale('pt-br', ptBrLocale)
 
 export class SistemaComponent implements OnInit {
   title = 'SRA-Web';
-
   currentDataHora: any;
+  mostrarProcesso?: number;
+  mostrarId? = 0;
+  bodyDeletarSistema='';
+  modoSalvar = 'post';
+  _filtroLista: string;
 
+  sistemasFiltrados?: Sistema[];
   sistemas?: Sistema[];
   sistema?: Sistema;
   processos: Processo[];
@@ -29,12 +32,8 @@ export class SistemaComponent implements OnInit {
   usuarios?: Usuario[];
   _usuario?: Usuario;
   usuario?: FormGroup;
-  mostrarProcesso?: number;
-  mostrarId? = 0;
-  registerForm?: FormGroup;
-  bodyDeletarSistema='';
 
-  modoSalvar = 'post'
+  registerForm?: FormGroup;
 
   readonly apiURL : string;
 
@@ -43,17 +42,32 @@ export class SistemaComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private localeService: BsLocaleService,
-    private datePipe: DatePipe
     ) {
       this.localeService.use('pt-br');
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    //this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
+    this.apiURL = 'http://192.168.0.121:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
     this.getSistema();
     this.validation();
+  }
+
+  get filtroLista(): string{
+    return this._filtroLista;
+  }
+
+  set filtroLista(value: string){
+    this._filtroLista = value;
+    this.sistemasFiltrados = this.filtroLista ? this.filtrarsistemas(this.filtroLista) : this.sistemas;
+  }
+
+  filtrarsistemas(filtrarPor: string ): Sistema[] | undefined {
+    filtrarPor = filtrarPor.toLocaleLowerCase();
+    return this.sistemas?.filter(
+      sis => sis?.nome?.toLocaleLowerCase().indexOf(filtrarPor) !== -1
+    );
   }
 
   openModal(template: any){
@@ -139,8 +153,7 @@ export class SistemaComponent implements OnInit {
     return this.http.put(`${ this.apiURL }/processos/` + this.processo.id, this.processo).
             subscribe(
             resultado => {
-              this.toastr.success('Processo alterado com sucesso.')
-              console.log(this.http.put)
+              this.toastr.success('Processo alterado com sucesso.');
             },
             erro => {
               switch(erro.status) {
@@ -169,13 +182,13 @@ export class SistemaComponent implements OnInit {
             );
           });
       });
-    
+
   }
 
   abrirModalExcluir(sistema: Sistema, template: any) {
     this.openModal(template);
     this.sistema = sistema;
-    this.bodyDeletarSistema = `Tem certeza que deseja excluir o Evento: ${sistema?.nome}`;
+    this.bodyDeletarSistema = `Tem certeza que deseja deletar este Sistema: ${sistema?.nome}`;
   }
 
   excluirSistema(template: any) {
@@ -213,6 +226,7 @@ export class SistemaComponent implements OnInit {
     this.http.get<Sistema[]>(`${this.apiURL}/sistemas`).
       subscribe(response => {
         this.sistemas = response;
+        this.sistemasFiltrados = this.sistemas;
       },
       err => {
         this.toastr.error("Error occured.");

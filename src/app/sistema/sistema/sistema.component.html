@@ -1,62 +1,68 @@
 <br>
 
-<div>
-  <button class="btn btn-outline-primary" (click)="novoSistema(template)">
-    <i class="fa fa-plus-circle"></i>
-    Novo sistema
-  </button>
+<div class="row" style="margin-bottom: 0.5rem;">
+  <div class="col">
+    <button class="btn btn-outline-primary form-control" (click)="novoSistema(template)">
+      <i class="fa fa-plus-circle"></i>
+      Novo sistema
+    </button>
+  </div>
+  <div class="col-md-10">
+    <input type="text"
+    class="form-control border border-primary"
+    placeholder="Filtar Sistema"
+    [(ngModel)]="filtroLista">
+  </div>
 </div>
 
-<div class="container"  style="padding-right: 0rem; padding-left: 0rem;">
-  <table class="table table-dark" style="margin-bottom: 0rem;">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Id</th>
-        <th>Sistema</th>
-        <th>Data Atualização</th>
-        <th>Status</th>
-        <th colspan="2" style="text-align: center;">Ação</th>
-      </tr>
-    </thead>
-    <tbody *ngFor="let sistema of sistemas">
-            <tr>
-              <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">
-                <i onMouseOver="this.style.cursor='pointer'" class="{{sistema?.id == mostrarProcesso ? 'far fa-minus-square' : 'far fa-plus-square'}}"></i>
-              </td>
-              <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">{{sistema?.id}} </td>
-              <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">{{sistema?.nome}} </td>
-              <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">{{sistema?.dataAtualizacao | date: "dd/MM/yyyy HH:mm:ss"}}</td>
-              <td>
-                <div class="form-check form-switch">
-                  <input *ngIf="sistema?.statusSistema" class="form-check-input"
-                  type="checkbox" id="{{sistema?.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-                  (change)="updateStatusSistema(sistema)" checked>
-                  <input *ngIf="!sistema?.statusSistema" class="form-check-input"
-                  type="checkbox" id="{{sistema?.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-                  (change)="updateStatusSistema(sistema)">
-                  </div>
-              </td>
-              <td>
-                  <span class="icon" style="float: right;" onMouseOver="this.style.cursor='pointer'" tooltip="Editar" (click)="editarSistema(sistema, template)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                    </svg>
-                  </span>
-              </td>
-              <td>
-                <span class="icon" onMouseOver="this.style.cursor='pointer'" tooltip="Excluir">
-                  <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalExcluir(sistema, confirm)" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
-                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                  </svg>
-                </span>
-              </td>
-            </tr>
-
-      <td colspan="7">
-      <table class="table table-striped" *ngIf="sistema?.id == mostrarId">
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>ID</th>
+      <th>SISTEMA</th>
+      <th>DATA ATUALIZAÇÃO</th>
+      <th>STATUS</th>
+      <th colspan="2" style="text-align: center;">AÇÃO</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let sistema of sistemasFiltrados">
+    <tr>
+      <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">
+        <i onMouseOver="this.style.cursor='pointer'" class="{{sistema?.id == mostrarProcesso ? 'far fa-minus-square' : 'far fa-plus-square'}}"></i>
+      </td>
+      <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">{{sistema?.id}} </td>
+      <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">{{sistema?.nome}} </td>
+      <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">{{sistema?.dataAtualizacao | date: "dd/MM/yyyy HH:mm:ss"}}</td>
+      <td>
+        <div class="form-check form-switch">
+          <input *ngIf="sistema?.statusSistema" class="form-check-input"
+            type="checkbox" id="{{sistema?.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
+            (change)="updateStatusSistema(sistema)" checked>
+          <input *ngIf="!sistema?.statusSistema" class="form-check-input"
+            type="checkbox" id="{{sistema?.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
+            (change)="updateStatusSistema(sistema)">
+          </div>
+      </td>
+      <td>
+          <span class="icon" style="float: right;" onMouseOver="this.style.cursor='pointer'" tooltip="Editar" (click)="editarSistema(sistema, template)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+          </span>
+      </td>
+      <td>
+        <span class="icon" onMouseOver="this.style.cursor='pointer'" tooltip="Excluir">
+          <svg xmlns="http://www.w3.org/2000/svg" (click)="abrirModalExcluir(sistema, confirm)" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg>
+        </span>
+      </td>
+    </tr>
+    <td colspan="7" *ngIf="sistema?.id == mostrarId">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th>#</th>
@@ -73,11 +79,9 @@
             <td>
               <div class="form-check form-switch">
                 <input *ngIf="processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
-                type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-                 checked>
+                type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'" checked>
                 <input *ngIf="!processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
-                type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
-                >
+                type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'">
               </div>
             </td>
           </tr>
@@ -86,16 +90,69 @@
           <tr>
             <td colspan="7" class="text-center">
               <h6>
-                Nenhum processos associado!
+                Nenhum processo associado!
               </h6>
             </td>
           </tr>
         </tfoot>
       </table>
-      </td>
-    </tbody>
-  </table>
+    </td>
+  </tbody>
+</table>
 
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+  role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">
+          {{modoSalvar == "post" ? "Cadastrar" : "Alterar"}} Sistema
+        </h4>
+        <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="registerForm "[formGroup]="registerForm">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Nome</label>
+              <input type="text" class="form-control is-invalid"
+                [ngClass]="{'is-invalid': registerForm?.get('nome')?.errors
+                && registerForm?.get('nome')?.touched}"
+                formControlName="nome" placeholder="Insira o nome">
+              <div *ngIf="registerForm?.get('nome')?.hasError('required')
+                && registerForm?.get('nome')?.touched" class="invalid-feedback">
+                nome é obrigatório.
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Data e Hora</label>
+              <input type="text" class="form-control" formControlName="dataAtualizacao"
+               value="{{currentDataHora | date: 'dd/MM/yyyy HH:mm:ss'}}" readonly>
+            </div>
+
+            <div class="form-group col-md-4" formGroupName="usuario">
+              <label>Usuario</label>
+              <select id="usuarioId" class="form-control" formControlName="id">
+                <option selected>{{modoSalvar == "post" ? "Escolha..." : sistema?.usuario?.nome}}</option>
+                <option value="{{_usuario.id}}" *ngFor="let _usuario of usuarios;">{{_usuario.nome}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer d-flex">
+        <button class="btn btn-secondary" (click)="template.hide()">
+          Fechar
+        </button>
+        <button class="btn btn-primary ml-auto" (disabled)="!registerForm?.valid" (click)="salvarSistema(template)">
+          Salvar {{modoSalvar == "post" ? "" : "Alterações"}}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
@@ -123,62 +180,3 @@
     </div>
   </div>
 </div>
-
-<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
-role="dialog" aria-labelledby="dialog-sizes-name1">
-<div class="modal-dialog modal-lg">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastrar Sistema</h4>
-      <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form *ngIf="registerForm "[formGroup]="registerForm">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label>Nome</label>
-            <input type="text" class="form-control is-invalid"
-            [ngClass]="{'is-invalid': registerForm?.get('nome')?.errors
-            && registerForm?.get('nome')?.touched}"
-            formControlName="nome" placeholder="Insira o nome">
-            <div *ngIf="registerForm?.get('nome')?.hasError('required')
-            && registerForm?.get('nome')?.touched" class="invalid-feedback">
-            nome é obrigatório.
-            </div>
-          </div>
-
-
-          <div class="d-flex">
-          <div class="form-group col-md-4">
-            <label>Data e Hora</label>
-            <input type="text" class="form-control" formControlName="dataAtualizacao"
-             value="{{currentDataHora | date: 'dd/MM/yyyy HH:mm:ss'}}" readonly>
-          </div>
-          
-          
-          <div formGroupName="usuario">
-            <label>Usuario</label>
-            <select id="usuarioId" class="form-control" formControlName="id">
-              <option selected>Escolha...</option>
-              <option value="{{_usuario.id}}" *ngFor="let _usuario of usuarios;">{{_usuario.nome}}</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      </form>
-</div>
-<div class="modal-footer d-flex">
-  <button class="btn btn-secondary" (click)="template.hide()">
-    Fechar
-  </button>
-  <button class="btn btn-primary ml-auto" (disabled)="!registerForm?.valid" (click)="salvarSistema(template)">
-    Salvar Alterações
-  </button>
-</div>
-</div>
-</div>
-</div>
-
-

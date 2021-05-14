@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Acesso } from 'src/app/_models/acesso';
 import { Sistema } from 'src/app/_models/sistema';
@@ -15,8 +15,9 @@ import { Usuario } from 'src/app/_models/usuario';
 export class AcessoComponent implements OnInit {
 
   title = 'SRA-Web';
-
   currentDataHora: any;
+  bodyDeletarAcesso='';
+  modoSalvar = 'post';
 
   acessos?: Acesso[];
   acesso?: Acesso;
@@ -25,17 +26,15 @@ export class AcessoComponent implements OnInit {
   usuarios?: Usuario[];
   _usuario?: Usuario;
   sistema?: FormGroup;
-  registerForm?: FormGroup;
-  bodyDeletarAcesso='';
 
-  modoSalvar = 'post'
+  registerForm?: FormGroup;
 
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    //this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
+    this.apiURL = 'http://192.168.0.121:8081/'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -44,8 +43,8 @@ export class AcessoComponent implements OnInit {
   }
 
   openModal(template: any){
+    this.registerForm?.reset();
     template.show();
-
   }
 
   novoAcesso(template: any){
@@ -64,7 +63,6 @@ export class AcessoComponent implements OnInit {
             template.hide();
             this.getAcesso();
             this.toastr.success('Acesso adicionado com sucesso');
-            console.log(this.http.post);
           },
           erro => {
             switch(erro.status) {
@@ -95,7 +93,7 @@ export class AcessoComponent implements OnInit {
   abrirModalExcluir(acesso: Acesso, template: any) {
     this.openModal(template);
     this.acesso = acesso;
-    this.bodyDeletarAcesso = `Tem certeza que deseja excluir o Evento: ${acesso.hostname}`;
+    this.bodyDeletarAcesso = `Tem certeza que deseja deletar este Acesso: ${acesso.hostname}`;
   }
 
   excluirAcesso(template: any) {

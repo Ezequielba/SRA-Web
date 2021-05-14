@@ -11,24 +11,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
-
   title = 'SRA-Web';
 
   currentDataHora: any;
+  bodyDeletarUsuario='';
+  modoSalvar = 'post';
 
   usuarios?: Usuario[];
   usuario?: Usuario;
-  registerForm?: FormGroup;
-  bodyDeletarUsuario='';
 
-  modoSalvar = 'post'
+  registerForm?: FormGroup;
 
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    //this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
+    this.apiURL = 'http://192.168.0.121:8081/'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -37,50 +36,50 @@ export class UsuarioComponent implements OnInit {
   }
 
   openModal(template: any){
+    this.registerForm?.reset();
     template.show();
   }
 
   novoUsuario(template: any){
     this.modoSalvar = 'post';
-    this.registerForm?.reset();
     this.openModal(template);
   }
 
   salvarUsuario(template: any){
     if(this.modoSalvar == 'post'){
-    this.usuario = Object.assign({}, this.registerForm?.value);
-    this.http.post(`${ this.apiURL }/usuarios/`, this.usuario).
-    subscribe(
-      resultado => {
+      this.usuario = Object.assign({}, this.registerForm?.value);
+      this.http.post(`${ this.apiURL }/usuarios/`, this.usuario).
+        subscribe(
+        resultado => {
+          template.hide();
+          this.getUsuario();
+          this.toastr.success('Usuario adicionado com sucesso');
+        },
+        erro => {
+          switch(erro.status) {
+            case 400:
+            this.toastr.error(erro.error.mensagem);
+            break;
+            case 404:
+            this.toastr.error('Erro para salvar.');
+            break;
+          }
+        }
+        );
+    }
+    else{
+      this.usuario = Object.assign({id: this.usuario?.id}, this.registerForm?.value);
+      this.http.put(`${ this.apiURL }/usuarios/` + this.usuario?.id ,this.usuario).
+        subscribe(
+        () => {
         template.hide();
         this.getUsuario();
-        this.toastr.success('Usuario adicionado com sucesso');
-        console.log(this.http.post);
-      },
-      erro => {
-        switch(erro.status) {
-          case 400:
-          this.toastr.error(erro.error.mensagem);
-          break;
-          case 404:
-          this.toastr.error('Erro para salvar.');
-          break;
+        this.toastr.success('Atualizado com sucesso!');
+        }, error => {
+        this.toastr.error(`Erro ao tentar Atualizar: ${error}`);
         }
-      }
-    );
-  }
-  else{
-    this.usuario = Object.assign({id: this.usuario?.id}, this.registerForm?.value);
-    this.http.put(`${ this.apiURL }/usuarios/` + this.usuario?.id ,this.usuario).subscribe(
-    () => {
-      template.hide();
-      this.getUsuario();
-      this.toastr.success('Atualizado com sucesso!');
-    }, error => {
-      this.toastr.error(`Erro ao tentar Atualizar: ${error}`);
+        );
     }
-    );
-  }
   }
 
   getUsuario() {
@@ -96,7 +95,7 @@ export class UsuarioComponent implements OnInit {
   abrirModalExcluir(usuario: Usuario, template: any) {
     this.openModal(template);
     this.usuario = usuario;
-    this.bodyDeletarUsuario = `Tem certeza que deseja excluir o Evento: ${usuario.nome}`;
+    this.bodyDeletarUsuario = `Tem certeza que deseja deletar este Usuario: ${usuario.nome}`;
   }
 
   excluirUsuario(template: any) {
@@ -127,7 +126,7 @@ export class UsuarioComponent implements OnInit {
     return this.http.put(`${ this.apiURL }/usuarios/` + this.usuario.id, this.usuario).
       subscribe(
         resultado => {
-          console.log(this.http.put)
+          this.toastr.success('Atualizado com Sucesso.');
         },
         erro => {
           switch(erro.status) {
@@ -149,7 +148,6 @@ export class UsuarioComponent implements OnInit {
     this.openModal(template);
     this.usuario = Object.assign({}, usuario);
     this.registerForm?.patchValue(this.usuario);
-    //this.getUsuario();
   }
 
   validation(){
