@@ -21,7 +21,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { DatePipe } from "@angular/common"
+import { DatePipe } from "@angular/common";
 
 
 @NgModule({

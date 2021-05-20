@@ -32,9 +32,9 @@ export class ProcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    this.apiURL = 'http://192.168.0.121:8081'; //Servidor Eliel.
+    //this.apiURL = 'http://192.168.0.121:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -59,6 +59,8 @@ export class ProcessoComponent implements OnInit {
     if(this.modoSalvar == 'post'){
     this.processo = Object.assign({}, this.registerForm?.value);
     this.processo!.dataProcesso = this.currentDataHora;
+    this.processo!.statusMonitoracao = true;
+    this.processo!.statusProcesso = false;
     this.http.post(`${ this.apiURL }/processos/`, this.processo).
           subscribe(
           resultado => {
@@ -194,6 +196,9 @@ export class ProcessoComponent implements OnInit {
     this.registerForm = this.fb.group({
       nome: ['', Validators.required],
       dataProcesso: ['', Validators.required],
+      diretorio: ['', Validators.required],
+      stop: ['', Validators.required],
+      start: ['', Validators.required],
       acesso: this.fb.group({
         id: [''],
       }),
@@ -202,4 +207,17 @@ export class ProcessoComponent implements OnInit {
       })
     });
   }
+
+  copyMessage(_processo: Processo){
+    const selBox = document.createElement('textarea');
+    selBox.value = `UPDATE PROCESSO SET STATUS_MONITORACAO = FALSE WHERE NOME = '${_processo?.nome}' AND SISTEMA_ID = ${_processo?.sistema?.id};`;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.toastr.success("Copiado com Sucesso!");
+  }
+
 }
+

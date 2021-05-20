@@ -32,9 +32,9 @@ export class AcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    this.apiURL = 'http://192.168.0.121:8081/'; //Servidor Eliel.
+    //this.apiURL = 'http://192.168.0.121:8081/'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -163,9 +163,6 @@ export class AcessoComponent implements OnInit {
       ip: ['', Validators.required],
       usuario: ['', Validators.required],
       senha: ['', Validators.required],
-      diretorio: ['', Validators.required],
-      stop: ['', Validators.required],
-      start: ['', Validators.required],
       sistema: this.fb.group({
         id: [''],
       })

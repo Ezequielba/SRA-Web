@@ -7,9 +7,6 @@ export class Acesso {
     ip?: string;
     usuario?: string;
     senha?: string;
-    diretorio?: string;
-    stop?: string;
-    start?: string;
     sistema?: Sistema;
   }
 

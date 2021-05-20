@@ -16,9 +16,6 @@
         <th scope="col">IP</th>
         <th scope="col">USUÁRIO</th>
         <th scope="col">SENHA</th>
-        <th scope="col">DIRETÓRIO</th>
-        <th scope="col">STOP</th>
-        <th scope="col">START</th>
         <th scope="col" colspan="2" style="text-align: center;">Ação</th>
       </tr>
     </thead>
@@ -29,9 +26,6 @@
         <td>{{acesso.ip}}</td>
         <td>{{acesso.usuario}}</td>
         <td>{{acesso.senha}}</td>
-        <td>{{acesso.diretorio}}</td>
-        <td>{{acesso.stop}}</td>
-        <td>{{acesso.start}}</td>
         <td>
             <span class="icon" style="float: right;" onMouseOver="this.style.cursor='pointer'" tooltip="Editar" (click)="editarAcesso(acesso, template)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -114,42 +108,6 @@
               <div *ngIf="registerForm?.get('senha')?.hasError('required')
                 && registerForm?.get('senha')?.touched" class="invalid-feedback">
                 Senha é obrigatório.
-              </div>
-            </div>
-
-            <div class="form-group col-md-12">
-              <label>Diretório</label>
-              <input type="text" class="form-control is-invalid"
-                [ngClass]="{'is-invalid': registerForm?.get('diretorio')?.errors
-                && registerForm?.get('diretorio')?.touched}"
-                formControlName="diretorio" placeholder="Insira o diretorio">
-              <div *ngIf="registerForm?.get('diretorio')?.hasError('required')
-                && registerForm?.get('diretorio')?.touched" class="invalid-feedback">
-                Diretório é obrigatório.
-              </div>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label>Stop</label>
-              <input type="text" class="form-control is-invalid"
-                [ngClass]="{'is-invalid': registerForm?.get('stop')?.errors
-                && registerForm?.get('stop')?.touched}"
-                formControlName="stop" placeholder="Insira o stop">
-              <div *ngIf="registerForm?.get('stop')?.hasError('required')
-                && registerForm?.get('stop')?.touched" class="invalid-feedback">
-                Stop é obrigatório.
-              </div>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label>Start</label>
-              <input type="text" class="form-control is-invalid"
-                [ngClass]="{'is-invalid': registerForm?.get('start')?.errors
-                && registerForm?.get('start')?.touched}"
-                formControlName="start" placeholder="Insira o start">
-              <div *ngIf="registerForm?.get('start')?.hasError('required')
-                && registerForm?.get('start')?.touched" class="invalid-feedback">
-                Start é obrigatório.
               </div>
             </div>
             <div formGroupName="sistema">
