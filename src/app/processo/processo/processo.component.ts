@@ -32,9 +32,9 @@ export class ProcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    //this.apiURL = 'http://192.168.0.121:8081'; //Servidor Eliel.
+    this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -82,6 +82,7 @@ export class ProcessoComponent implements OnInit {
     }
     else{
       this.processo = Object.assign({id: this.processo?.id}, this.registerForm?.value);
+      console.log(this.processo);
       this.http.put(`${ this.apiURL }/processos/` + this.processo?.id ,this.processo).subscribe(
       () => {
         template.hide();
@@ -188,7 +189,6 @@ export class ProcessoComponent implements OnInit {
 
   validaModoSalvar(valor1: any | undefined, valor2: any | undefined){
     var resultado = this.modoSalvar == "post" ? valor1 : valor2;
-    console.log(resultado);
     return resultado;
   }
 
@@ -196,6 +196,7 @@ export class ProcessoComponent implements OnInit {
     this.registerForm = this.fb.group({
       nome: ['', Validators.required],
       dataProcesso: ['', Validators.required],
+      statusMonitoracao:[''],
       diretorio: ['', Validators.required],
       stop: ['', Validators.required],
       start: ['', Validators.required],
