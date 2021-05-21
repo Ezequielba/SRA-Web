@@ -121,6 +121,10 @@
         </form>
       </div>
       <div class="modal-footer d-flex">
+        <button class="btn btn-success ml-auto" (disabled)="!registerForm?.valid" (click)="testeConexao()">
+          Testar
+        </button>
+
         <button class="btn btn-secondary" (click)="template.hide()">
           Fechar
         </button>

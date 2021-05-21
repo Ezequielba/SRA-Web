@@ -18,6 +18,7 @@ export class AcessoComponent implements OnInit {
   currentDataHora: any;
   bodyDeletarAcesso='';
   modoSalvar = 'post';
+  spinner = false;
 
   acessos?: Acesso[];
   acesso?: Acesso;
@@ -145,6 +146,33 @@ export class AcessoComponent implements OnInit {
     err => {
         this.toastr.error("Error occured.");
     });
+  }
+
+  testeConexao(){
+    this.spinner = true;
+    this.acesso = Object.assign({}, this.registerForm?.value);
+    this.http.post(`${ this.apiURL }/acessos/conexao`, this.acesso).
+          subscribe(
+          resultado => {
+            if(resultado){
+              this.toastr.success('Conectado com sucesso!');
+            }else{
+              this.toastr.error('Erro para conectar!');
+            }
+            
+          },
+          erro => {
+            switch(erro.status) {
+              case 400:
+                this.toastr.error(erro.error.mensagem);
+              break;
+              case 404:
+                this.toastr.error(erro.error.mensagem);
+              break;
+            }
+          }
+        );
+        this.spinner = false;
   }
 
   editarAcesso(acesso: Acesso, template: any){

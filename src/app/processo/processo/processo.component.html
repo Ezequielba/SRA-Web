@@ -14,6 +14,7 @@
         <th scope="col">ID</th>
         <th scope="col">PROCESSO</th>
         <th scope="col">SISTEMA</th>
+        <th scope="col">TIPO</th>
         <th scope="col">DATA PROCESSO</th>
         <th scope="col">DIRETÓRIO</th>
         <th scope="col">STOP</th>
@@ -27,13 +28,14 @@
         <td>{{processo.id}}</td>
         <td>{{processo.nome}}</td>
         <td>{{processo.sistema?.nome}}</td>
+        <td></td>
         <td>{{processo.dataProcesso | date: "dd/MM/yyyy HH:mm:ss"}}</td>
         <td>{{processo.diretorio}}</td>
         <td>{{processo.stop}}</td>
         <td>{{processo.start}}</td>
         <td>
           <div class="form-check form-switch">
-            <input *ngIf="processo.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
+            <input *ngIf="processo.statusProcesso" style="background-color: #5cb85c; border-color: #5cb85c;"  class="form-check-input" (change)="updateStatusProcesso(processo)"
               type="checkbox" onMouseOver="this.style.cursor='pointer'" checked>
 
             <input *ngIf="!processo.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
@@ -95,6 +97,17 @@
               <div *ngIf="registerForm?.get('nome')?.hasError('required')
                 && registerForm?.get('nome')?.touched" class="invalid-feedback">
                 nome é obrigatório.
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <div formGroupName="acesso">
+                <label>TIPO</label>
+                <select id="acessoId" class="form-control" formControlName="id">
+                  <option value="LINUX">LINUX</option>
+                  <option value="WINDOWS">WINDOWS</option>
+                  <option value="MIDDLEWARE">MIDDLEWARE</option>
+                </select>
               </div>
             </div>
 

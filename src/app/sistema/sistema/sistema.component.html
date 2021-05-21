@@ -36,7 +36,7 @@
       <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">{{sistema?.dataAtualizacao | date: "dd/MM/yyyy HH:mm:ss"}}</td>
       <td>
         <div class="form-check form-switch">
-          <input *ngIf="sistema?.statusSistema" class="form-check-input"
+          <input *ngIf="sistema?.statusSistema" class="form-check-input" style="background-color: #5cb85c; border-color: #5cb85c;"
             type="checkbox" id="{{sistema?.statusSistema ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'"
             (change)="updateStatusSistema(sistema)" checked>
           <input *ngIf="!sistema?.statusSistema" class="form-check-input"
@@ -78,7 +78,7 @@
             <td>{{processo?.dataProcesso | date: "dd/MM/yyyy HH:mm:ss"}}</td>
             <td>
               <div class="form-check form-switch">
-                <input *ngIf="processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
+                <input *ngIf="processo?.statusProcesso" style="background-color: #5cb85c; border-color: #5cb85c;"  class="form-check-input" (change)="updateStatusProcesso(processo)"
                 type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'" checked>
                 <input *ngIf="!processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
                 type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'">
