@@ -192,22 +192,6 @@ export class ProcessoComponent implements OnInit {
     return resultado;
   }
 
-  validation(){
-    this.registerForm = this.fb.group({
-      nome: ['', Validators.required],
-      dataProcesso: ['', Validators.required],
-      statusMonitoracao:[''],
-      diretorio: ['', Validators.required],
-      stop: ['', Validators.required],
-      start: ['', Validators.required],
-      acesso: this.fb.group({
-        id: [''],
-      }),
-      sistema: this.fb.group({
-        id: [''],
-      })
-    });
-  }
 
   copyMessage(_processo: Processo){
     const selBox = document.createElement('textarea');
@@ -220,5 +204,22 @@ export class ProcessoComponent implements OnInit {
     this.toastr.success("Copiado com Sucesso!");
   }
 
+  validation(){
+    this.registerForm = this.fb.group({
+      nome: ['', Validators.required],
+      dataProcesso: ['', Validators.required],
+      statusMonitoracao:[''],
+      statusProcesso: [''],
+      diretorio: ['', Validators.required],
+      stop: ['', Validators.required],
+      start: ['', Validators.required],
+      acesso: this.fb.group({
+        id: [''],
+      }),
+      sistema: this.fb.group({
+        id: [''],
+      })
+    });
+  }
 }
 
