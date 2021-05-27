@@ -25,6 +25,7 @@
     "date-fns": "^2.21.2",
     "moment": "^2.29.1",
     "ngx-bootstrap": "^6.2.0",
+    "ngx-pagination": "^5.1.0",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.6.0",
     "save": "^2.4.0",

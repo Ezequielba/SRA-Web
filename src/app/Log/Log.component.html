@@ -62,7 +62,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let log of logs">
+    <tr *ngFor="let log of collection | paginate: { id: 'foo',
+    itemsPerPage: 10,
+    currentPage: p,
+    totalItems: collection?.length }">
       <th scope="row">{{log.id}}</th>
       <td>{{log.sistema}}</td>
       <td>{{log.processo}}</td>
@@ -72,4 +75,19 @@
       <td class="{{log.tipoLog == 'SUCESSO' ? 'bg-success' : 'bg-danger'}}">{{log.tipoLog}}</td>
     </tr>
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="8" class="text-center">
+        <pagination-controls  id="foo"
+          (pageChange)="p = $event"
+          previousLabel="Previous"
+          nextLabel="Next"
+          screenReaderPaginationLabel="Pagination"
+          screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+      </td>
+    </tr>
+  </tfoot>
 </table>
+

@@ -17,6 +17,8 @@ export class LogComponent implements OnInit {
 
   logs?: Log[];
   log?: Log;
+  p: number = 1;
+  collection: Array<any>;
 
   readonly apiURL : string;
 
@@ -29,13 +31,22 @@ export class LogComponent implements OnInit {
 
   ngOnInit() {
     this.getLogs();
+    this.getLog();
   }
 
+  getLog(){
+    this.http.get<any>(`${this.apiURL}/log`).
+      subscribe(response => {
+        this.collection = response;
+      },
+      err => {
+        this.toastr.error("Error occured.");
+      });
+  }
   getLogs(){
     this.http.get<Log[]>(`${this.apiURL}/log`).
       subscribe(response => {
         this.logs = response;
-        console.log(this.logs);
       },
       err => {
         this.toastr.error("Error occured.");

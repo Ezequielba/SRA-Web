@@ -13,7 +13,7 @@ import { SistemaComponent } from './sistema/sistema/sistema.component';
 import { ProcessoComponent } from './processo/processo/processo.component';
 import { AcessoComponent } from './acesso/acesso/acesso.component';
 import { UsuarioComponent } from './usuario/usuario/usuario.component';
-import { SobreComponent } from './sobre/sobre/sobre.component';
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 import { NavComponent } from './menu/nav/nav.component';
 import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -43,6 +43,7 @@ import { LogComponent } from './Log/Log.component';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    NgxPaginationModule,
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
