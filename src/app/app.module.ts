@@ -22,6 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DatePipe } from "@angular/common";
+import { LogComponent } from './Log/Log.component';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { DatePipe } from "@angular/common";
     AcessoComponent,
     UsuarioComponent,
     NavComponent,
-      SobreComponent
+    LogComponent
    ],
   imports: [
     BrowserModule,

@@ -6,7 +6,6 @@ import { Acesso } from 'src/app/_models/acesso';
 import { Processo } from 'src/app/_models/processo';
 import { Sistema } from 'src/app/_models/sistema';
 import { TipoProcesso } from 'src/app/_models/tipoProcesso';
-import { Usuario } from 'src/app/_models/usuario';
 
 @Component({
   selector: 'app-processo',
@@ -36,9 +35,9 @@ export class ProcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    //this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
+    this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {

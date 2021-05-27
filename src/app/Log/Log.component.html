@@ -1,0 +1,75 @@
+<br>
+<h3>Filtrar Por:</h3>
+  <div style="margin-bottom: 0.5rem;">
+    <form class="row">
+      <div class="col-md-4">
+        <label>Sistema</label>
+        <input type="text" class="form-control border border-primary">
+      </div>
+      <div class="col-md-4">
+        <label>Processo</label>
+        <input type="text" class="form-control border border-primary">
+      </div>
+      <div class="col-md-4">
+        <label>Hostname</label>
+        <input type="text" class="form-control border border-primary">
+      </div>
+      <div class="col-md-4">
+        <label>Data Inicio:</label>
+        <div class="input-group date">
+          <input type="date" class="form-control border border-primary" value="12-02-2012">
+          <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label>Data Fim:</label>
+        <div class="input-group date">
+          <input type="date" class="form-control border border-primary" value="12-02-2012">
+          <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label></label>
+        <div class="input-group mb-2">
+          <label class="input-group-text" for="inputGroupSelect01">Tipo Log</label>
+          <select class="form-select border border-primary" id="inputGroupSelect01">
+            <option selected>Escolha...</option>
+            <option value="1">SUCESSO</option>
+            <option value="2">ERRO</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col" colspan="7"  style="text-align: center;">LOG</th>
+    </tr>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">SISTEMA</th>
+      <th scope="col">PROCESSO</th>
+      <th scope="col">HOSTNAME</th>
+      <th scope="col">DATA_RESTART</th>
+      <th scope="col">MENSAGEM</th>
+      <th scope="col">TIPO LOG</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let log of logs">
+      <th scope="row">{{log.id}}</th>
+      <td>{{log.sistema}}</td>
+      <td>{{log.processo}}</td>
+      <td>{{log.hostname}}</td>
+      <td>{{log.dataRestart | date: "dd/MM/yyyy HH:mm:ss"}}</td>
+      <td>{{log.mensagem}}</td>
+      <td class="{{log.tipoLog == 'SUCESSO' ? 'bg-success' : 'bg-danger'}}">{{log.tipoLog}}</td>
+    </tr>
+  </tbody>
+</table>
