@@ -46,11 +46,18 @@
     </form>
   </div>
 
+<div>
+  <button type="button" class="btn btn-success">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+      <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"></path>
+    </svg>
+    Exportar
+  </button>
+</div>
+<br>
+
 <table class="table">
   <thead class="table-dark">
-    <tr>
-      <th scope="col" colspan="7"  style="text-align: center;">LOG</th>
-    </tr>
     <tr>
       <th scope="col">ID</th>
       <th scope="col">SISTEMA</th>
@@ -65,14 +72,14 @@
     <tr *ngFor="let log of collection | paginate: { id: 'foo',
     itemsPerPage: 10,
     currentPage: p,
-    totalItems: collection?.length }">
+    totalItems: collection?.length }" class="{{log.tipoLog == 'SUCESSO' ? 'table-success' : 'table-danger'}}">
       <th scope="row">{{log.id}}</th>
       <td>{{log.sistema}}</td>
       <td>{{log.processo}}</td>
       <td>{{log.hostname}}</td>
       <td>{{log.dataRestart | date: "dd/MM/yyyy HH:mm:ss"}}</td>
       <td>{{log.mensagem}}</td>
-      <td class="{{log.tipoLog == 'SUCESSO' ? 'bg-success' : 'bg-danger'}}">{{log.tipoLog}}</td>
+      <td>{{log.tipoLog}}</td>
     </tr>
   </tbody>
   <tfoot>
