@@ -15,7 +15,7 @@
         <th scope="col">PROCESSO</th>
         <th scope="col">SISTEMA</th>
         <th scope="col">TIPO</th>
-        <th scope="col">DATA PROCESSO</th>
+        <!-- <th scope="col">DATA PROCESSO</th> -->
         <th scope="col">DIRETÓRIO</th>
         <th scope="col">STOP</th>
         <th scope="col">START</th>
@@ -28,8 +28,8 @@
         <td>{{processo.id}}</td>
         <td>{{processo.nome}}</td>
         <td>{{processo.sistema?.nome}}</td>
-        <td></td>
-        <td>{{processo.dataProcesso | date: "dd/MM/yyyy HH:mm:ss"}}</td>
+        <td>{{processo.tipoProcesso?.tipoProcesso}}</td>
+        <!-- <td>{{processo.dataProcesso | date: "dd/MM/yyyy HH:mm:ss"}}</td> -->
         <td>{{processo.diretorio}}</td>
         <td>{{processo.stop}}</td>
         <td>{{processo.start}}</td>
@@ -100,17 +100,6 @@
               </div>
             </div>
 
-            <div class="form-group col-md-6">
-              <div formGroupName="acesso">
-                <label>TIPO</label>
-                <select id="acessoId" class="form-control" formControlName="id">
-                  <option value="LINUX">LINUX</option>
-                  <option value="WINDOWS">WINDOWS</option>
-                  <option value="MIDDLEWARE">MIDDLEWARE</option>
-                </select>
-              </div>
-            </div>
-
             <div class="form-group col-md-12">
               <label>Diretório</label>
               <input type="text" class="form-control is-invalid"
@@ -158,6 +147,17 @@
                 Data e Hora é obrigatório.
               </div>
             </div>
+
+            <div class="form-group col-md-6">
+              <div formGroupName="tipoProcesso">
+                <label>Tipo Processo</label>
+                <select id="" class="form-control" formControlName="id">
+                  <option value="{{processo?.tipoProcesso?.id}}"selected>{{validaModoSalvar("Escolha...", processo?.tipoProcesso?.tipoProcesso)}}</option>
+                  <option value="{{_tipoProcesso?.id}}" *ngFor="let _tipoProcesso of tipoProcessos;">{{_tipoProcesso.tipoProcesso}}</option>
+                </select>
+              </div>
+            </div>
+
             <div class="form-group col-md-6">
               <div formGroupName="acesso">
                 <label>Acesso</label>

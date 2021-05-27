@@ -1,5 +1,6 @@
 import { Acesso } from "./acesso";
 import { Sistema } from "./sistema";
+import { TipoProcesso } from "./tipoProcesso";
 
 export class Processo {
     constructor(){}
@@ -11,6 +12,7 @@ export class Processo {
     diretorio?: string;
     stop?: string;
     start?: string;
+    tipoProcesso?: TipoProcesso;
     acesso?: Acesso;
     sistema?: Sistema;
   }

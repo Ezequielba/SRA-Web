@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Acesso } from 'src/app/_models/acesso';
 import { Processo } from 'src/app/_models/processo';
 import { Sistema } from 'src/app/_models/sistema';
+import { TipoProcesso } from 'src/app/_models/tipoProcesso';
 import { Usuario } from 'src/app/_models/usuario';
 
 @Component({
@@ -25,6 +26,9 @@ export class ProcessoComponent implements OnInit {
   acesso?: FormGroup;
   sistemas?: Sistema[];
   _sistema?: Sistema;
+  tipoProcessos?: TipoProcesso[];
+  _tipoProcesso?: TipoProcesso;
+  tipoProcesso?: FormGroup;
   sistema?: FormGroup;
 
   registerForm?: FormGroup;
@@ -32,9 +36,9 @@ export class ProcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
-    this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
+    //this.apiURL = 'http://192.168.0.117:8081'; //Servidor Eliel.
   }
 
   ngOnInit() {
@@ -53,6 +57,7 @@ export class ProcessoComponent implements OnInit {
     this.currentDataHora = new Date();
     this.getAcesso();
     this.getSistema();
+    this.getTipoProcesso();
   }
 
   salvarProcesso(template: any){
@@ -104,6 +109,17 @@ export class ProcessoComponent implements OnInit {
     this.registerForm?.patchValue(this.processo);
     this.getAcesso();
     this.getSistema();
+    this.getTipoProcesso();
+  }
+
+  getTipoProcesso() {
+    this.http.get<TipoProcesso[]>(`${this.apiURL}/tipoprocessos`).
+      subscribe(response => {
+        this.tipoProcessos = response;
+    },
+    err => {
+      this.toastr.error("Error occured.");
+    });
   }
 
   getProcesso() {
@@ -213,6 +229,9 @@ export class ProcessoComponent implements OnInit {
       diretorio: ['', Validators.required],
       stop: ['', Validators.required],
       start: ['', Validators.required],
+      tipoProcesso: this.fb.group({
+        id: [''],
+      }),
       acesso: this.fb.group({
         id: [''],
       }),
