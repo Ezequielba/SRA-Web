@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Log } from '../_models/log';
+import { Sistema } from '../_models/sistema';
 
 @Component({
   selector: 'app-Log',
@@ -14,7 +15,11 @@ export class LogComponent implements OnInit {
   currentDataHora: any;
   bodyDeletarUsuario='';
   modoSalvar = 'post';
+  _filtroLista: string;
 
+  sistemasFiltrados?: any;
+  sistemas?: Sistema[];
+  sistema?: Sistema;
   logs?: Log[];
   log?: Log;
   p: number = 1;
@@ -34,19 +39,40 @@ export class LogComponent implements OnInit {
     this.getLog();
   }
 
+  get filtroLista(): string{
+    return this._filtroLista;
+  }
+
+  set filtroLista(value: string){
+    this._filtroLista = value;
+    this.sistemasFiltrados = this.filtroLista ? this.filtrarsistemas(this.filtroLista) : this.logs;
+  }
+
+  filtrarsistemas(filtrarPor: string ): any | undefined {
+    filtrarPor = filtrarPor.toLocaleLowerCase();
+    return this.collection.filter(
+      sis => sis?.sistema?.toLocaleLowerCase().indexOf(filtrarPor) !== -1,
+      sis => sis?.processo?.toLocaleLowerCase().indexOf(filtrarPor) !== -1
+    );
+  }
+
   getLog(){
     this.http.get<any>(`${this.apiURL}/log`).
       subscribe(response => {
         this.collection = response;
+        this.sistemasFiltrados = this.collection;
       },
       err => {
         this.toastr.error("Error occured.");
       });
   }
+  
+
   getLogs(){
     this.http.get<Log[]>(`${this.apiURL}/log`).
       subscribe(response => {
         this.logs = response;
+        this.sistemasFiltrados = this.logs;
       },
       err => {
         this.toastr.error("Error occured.");

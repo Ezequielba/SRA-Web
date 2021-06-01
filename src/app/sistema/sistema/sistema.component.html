@@ -26,6 +26,7 @@
       <th colspan="2" style="text-align: center;">AÇÃO</th>
     </tr>
   </thead>
+  
   <tbody *ngFor="let sistema of sistemasFiltrados">
     <tr>
       <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">
