@@ -51,8 +51,7 @@ export class LogComponent implements OnInit {
   filtrarsistemas(filtrarPor: string ): any | undefined {
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.collection.filter(
-      sis => sis?.sistema?.toLocaleLowerCase().indexOf(filtrarPor) !== -1,
-      sis => sis?.processo?.toLocaleLowerCase().indexOf(filtrarPor) !== -1
+      sis => sis?.sistema?.toLocaleLowerCase().indexOf(filtrarPor) !== -1
     );
   }
 
