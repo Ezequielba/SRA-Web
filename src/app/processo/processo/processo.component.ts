@@ -228,6 +228,7 @@ export class ProcessoComponent implements OnInit {
       diretorio: ['', Validators.required],
       stop: ['', Validators.required],
       start: ['', Validators.required],
+      dataAgendamento: ['', Validators.required],
       tipoProcesso: this.fb.group({
         id: [''],
       }),

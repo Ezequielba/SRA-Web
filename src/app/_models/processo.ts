@@ -13,6 +13,7 @@ export class Processo {
     stop?: string;
     start?: string;
     tipoProcesso?: TipoProcesso;
+    dataAgendamento?: string;
     acesso?: Acesso;
     sistema?: Sistema;
   }
