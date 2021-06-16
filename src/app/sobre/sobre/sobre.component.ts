@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SobreComponent implements OnInit {
 
+  isLoading = true;
   readonly apiURL : string;
 
   constructor(private http: HttpClient) {
