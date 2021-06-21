@@ -26,7 +26,7 @@
       <th colspan="2" style="text-align: center;">AÇÃO</th>
     </tr>
   </thead>
-  
+
   <tbody *ngFor="let sistema of sistemasFiltrados">
     <tr>
       <td (click)="alternarProcesso(sistema)" (click)="getProcessos(sistema)">
@@ -80,13 +80,13 @@
             <td>{{processo?.dataProcesso | date: "dd/MM/yyyy HH:mm:ss"}}</td>
             <td>
               <div class="form-check form-switch">
-                <input *ngIf="processo?.statusProcesso" style="background-color: #5cb85c; border-color: #5cb85c;"  class="form-check-input" (change)="updateStatusProcesso(processo)"
+                <input *ngIf="processo?.sistema?.statusSistema && processo?.statusProcesso" style="background-color: #5cb85c; border-color: #5cb85c;"  class="form-check-input" (change)="updateStatusProcesso(processo)"
                 type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'" checked>
-                <input *ngIf="!processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
+                <input *ngIf="!processo?.sistema?.statusSistema || !processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
                 type="checkbox" id="{{processo?.statusProcesso ? 'flexSwitchCheckChecked' : 'flexSwitchCheckDefault'}}" onMouseOver="this.style.cursor='pointer'">
               </div>
             </td>
-            <td>  
+            <td>
               <span *ngIf="processo.dataAgendamento!=null && processo.dataAgendamento!=''" class="icon" onMouseOver="this.style.cursor='pointer'" tooltip="{{'Programado às ' + processo.dataAgendamento}}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="purple" class="bi bi-alarm" viewBox="0 0 16 16">
                   <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
