@@ -37,10 +37,10 @@
         <td>{{processo.start}}</td>
         <td>
           <div class="form-check form-switch">
-            <input *ngIf="processo.statusProcesso" style="background-color: #5cb85c; border-color: #5cb85c;"  class="form-check-input" (change)="updateStatusProcesso(processo)"
+            <input *ngIf="processo?.sistema?.statusSistema && processo?.statusProcesso" style="background-color: #5cb85c; border-color: #5cb85c;"  class="form-check-input" (change)="updateStatusProcesso(processo)"
               type="checkbox" onMouseOver="this.style.cursor='pointer'" checked>
 
-            <input *ngIf="!processo.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
+            <input *ngIf="!processo?.sistema?.statusSistema || !processo?.statusProcesso" class="form-check-input" (change)="updateStatusProcesso(processo)"
               type="checkbox" onMouseOver="this.style.cursor='pointer'">
 
             <label class="form-check-label"

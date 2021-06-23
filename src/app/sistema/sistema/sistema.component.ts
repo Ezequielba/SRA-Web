@@ -172,17 +172,7 @@ export class SistemaComponent implements OnInit {
       this.http.get<Processo[]>(`${this.apiURL}/processos/sistema/${_sistema?.id}`).
       subscribe(response => {
         this.processos = response;
-        /*this.processos.forEach(x =>
-          {
-            x.statusProcesso = !x.statusProcesso;
-            this.http.put(`${ this.apiURL }/processos/` + x.id, x).
-              subscribe(
-              resultado => {
-              }
-            );
-          });*/
       });
-
   }
 
   abrirModalExcluir(sistema: Sistema, template: any) {

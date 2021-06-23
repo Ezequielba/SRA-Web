@@ -210,7 +210,7 @@ export class ProcessoComponent implements OnInit {
 
   copyMessage(_processo: Processo){
     const selBox = document.createElement('textarea');
-    selBox.value = `UPDATE PROCESSO SET STATUS_MONITORACAO = FALSE WHERE NOME = '${_processo?.nome}' AND SISTEMA_ID = ${_processo?.sistema?.id};`;
+    selBox.value = `UPDATE Processo SET statusMonitoracao = FALSE WHERE nome = '${_processo?.nome}' AND sistema_id = ${_processo?.sistema?.id};`;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();

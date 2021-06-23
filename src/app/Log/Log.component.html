@@ -11,16 +11,23 @@
       </div>
       <div class="col-md-4">
         <label>Processo</label>
-        <input type="text" class="form-control border border-primary">
+        <input type="text"
+        placeholder="Filtar Processo"
+        class="form-control border border-primary"
+        [(ngModel)]="filtroListaProcesso" name="processo">
       </div>
       <div class="col-md-4">
         <label>Hostname</label>
-        <input type="text" class="form-control border border-primary">
+        <input type="text" class="form-control border border-primary"
+        placeholder="Filtar Hostname"
+        [(ngModel)]="filtroListaHostname" name="hostname">
       </div>
       <div class="col-md-4">
         <label>Data Inicio:</label>
         <div class="input-group date">
-          <input type="date" class="form-control border border-primary" value="12-02-2012">
+          <input type="datetime-local" class="form-control border border-primary"
+          [(ngModel)]="filtroListaDataInicio" name="dataInicio"
+          max="dataFim">
           <div class="input-group-addon">
               <span class="glyphicon glyphicon-th"></span>
           </div>
@@ -29,7 +36,9 @@
       <div class="col-md-4">
         <label>Data Fim:</label>
         <div class="input-group date">
-          <input type="date" class="form-control border border-primary" value="12-02-2012">
+          <input type="datetime-local" class="form-control border border-primary"
+          [(ngModel)]="filtroListaDataFim" name="dataFim"
+          min="dataInicio">
           <div class="input-group-addon">
               <span class="glyphicon glyphicon-th"></span>
           </div>
@@ -39,28 +48,39 @@
         <label></label>
         <div class="input-group mb-2">
           <label class="input-group-text" for="inputGroupSelect01">Tipo Log</label>
-          <select class="form-select border border-primary" id="inputGroupSelect01">
-            <option selected>Escolha...</option>
-            <option value="1">SUCESSO</option>
-            <option value="2">ERRO</option>
+          <select class="form-select border border-primary" id="inputGroupSelect01"
+            [(ngModel)]="filtroListaTipoLog" name="tipoLog">
+            <option [selected]="true"></option>
+            <option value="SUCESSO">SUCESSO</option>
+            <option value="ERRO">ERRO</option>
+            <option value="FALHA">FALHA</option>
           </select>
         </div>
       </div>
     </form>
   </div>
-
 <div>
-  <button type="button" class="btn btn-success" (click)="exportarRelatorio()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
-      <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"></path>
-    </svg>
-    Exportar
-  </button>
+  <div style="display: inline-block;">
+    <button type="button" class="btn btn-success" (click)="exportarRelatorio()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"></path>
+      </svg>
+      Exportar
+    </button>
+  </div>
+  <div style="float: right;">
+        <select class="form-select border border-primary" id="inputGroupSelect01"
+        [(ngModel)]="numberPaginations">
+          <option [selected]="true">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+  </div>
 </div>
-<br>
 
-<table class="table" id="exportExcel">
-  <thead class="table-dark">
+<br>
+<table class="table">
+  <thead class="table-dark" id="exportExcel">
     <tr>
       <th scope="col">ID</th>
       <th scope="col">SISTEMA</th>
@@ -71,11 +91,11 @@
       <th scope="col">TIPO LOG</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="exportExcelBody">
     <tr *ngFor="let log of sistemasFiltrados | paginate: { id: 'foo',
-    itemsPerPage: 10,
+    itemsPerPage: numberPaginations,
     currentPage: p,
-    totalItems: collection?.length }" class="{{log.tipoLog == 'SUCESSO' ? 'table-success' : 'table-danger'}}">
+    totalItems: sistemasFiltrados?.length }" class="{{log.tipoLog == 'SUCESSO' ? 'table-success' : 'table-danger'}}">
       <th scope="row">{{log.id}}</th>
       <td>{{log.sistema}}</td>
       <td>{{log.processo}}</td>
