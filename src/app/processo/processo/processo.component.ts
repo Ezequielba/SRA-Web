@@ -35,7 +35,8 @@ export class ProcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
   }
 

@@ -28,7 +28,11 @@ export class NavComponent implements OnInit {
   }
 
   loggedIn(){
-    return this.authService.loggedIn();
+    if(!this.authService.loggedIn()){
+      localStorage.removeItem('token');
+      this.toastr.show('Acesso Expirado!');
+      this.router.navigate(['/user/login']);
+    }
   }
 
   showMenu(){

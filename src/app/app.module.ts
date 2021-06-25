@@ -60,13 +60,17 @@ import { ConsolidadoComponent } from './consolidado/consolidado.component';
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-    }),
+    })
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
     },
      DatePipe
   ],
