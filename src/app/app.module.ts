@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { CommonModule } from '@angular/common/';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -21,19 +21,27 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DatePipe } from "@angular/common";
 import { LogComponent } from './Log/Log.component';
+import { UserComponent } from './user/user.component';
+import { LoginComponent } from './user/login/login.component';
 
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { ConsolidadoComponent } from './consolidado/consolidado.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SistemaComponent,
-    ProcessoComponent,
-    AcessoComponent,
-    UsuarioComponent,
-    NavComponent,
-    LogComponent
+      AppComponent,
+      SistemaComponent,
+      ProcessoComponent,
+      AcessoComponent,
+      UsuarioComponent,
+      NavComponent,
+      LogComponent,
+      UserComponent,
+      LoginComponent,
+      ConsolidadoComponent
    ],
   imports: [
     BrowserModule,
@@ -45,6 +53,7 @@ import { LogComponent } from './Log/Log.component';
     BrowserAnimationsModule,
     NgxPaginationModule,
     BsDatepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     ToastrModule.forRoot({
@@ -53,7 +62,14 @@ import { LogComponent } from './Log/Log.component';
       preventDuplicates: true,
     }),
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, DatePipe],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+     DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
