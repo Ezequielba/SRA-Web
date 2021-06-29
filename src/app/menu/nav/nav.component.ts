@@ -10,11 +10,15 @@ import { AuthService } from 'src/app/_services/authServices/auth.service';
 })
 export class NavComponent implements OnInit {
 
+  nomeUsuario: any;
+
   constructor(public authService: AuthService,
     public router: Router,
     private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.nomeUsuario = sessionStorage.getItem('username');
+    //this.userName();
   }
 
   userName(){

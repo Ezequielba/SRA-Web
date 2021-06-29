@@ -143,11 +143,14 @@
                value="{{currentDataHora | date: 'dd/MM/yyyy HH:mm:ss'}}" readonly>
             </div>
 
-            <div class="form-group col-md-4" formGroupName="usuario">
-              <label>Usuario</label>
-              <select id="usuarioId" class="form-control" formControlName="id">
-                <option selected>{{modoSalvar == "post" ? "Escolha..." : sistema?.usuario?.nome}}</option>
-                <option value="{{_usuario.id}}" *ngFor="let _usuario of usuarios;">{{_usuario.nome}}</option>
+            <div class="form-group col-md-4" formGroupName="usuario"
+            *ngFor="let _usuario of usuarios;">
+              <label *ngIf="_usuario.nome?.toLowerCase()?.trim() == nomeUsuario?.toLowerCase()?.trim()">
+                Usuario
+              </label>
+              <select id="usuarioId" class="form-control" formControlName="id"
+              *ngIf="_usuario.nome?.toLowerCase()?.trim() == nomeUsuario?.toLowerCase()?.trim()">
+                <option [selected]="true" value="{{_usuario.id}}" >{{_usuario.nome}}</option>
               </select>
             </div>
           </div>

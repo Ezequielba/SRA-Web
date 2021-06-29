@@ -3,11 +3,13 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/internal/operators/tap";
+import { AuthService } from "../_services/authServices/auth.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthInterceptor implements HttpInterceptor{
 
-  constructor(private router: Router){}
+  constructor(private router: Router,
+     private authService: AuthService){}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if(localStorage.getItem('token') !== null){
       const cloneReq = req.clone({

@@ -1,3 +1,4 @@
+<!--
 <body class="text-center" data-gr-c-s-loaded="true">
   <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login()">
     <img class="mb-4" src="" alt="" width="72" height="72">
@@ -11,3 +12,31 @@
     <button [disabled]="!loginForm.valid" class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
     </form>
 </body>
+-->
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <h2 class="active"> Login SRA </h2>
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+
+    </div>
+
+    <!-- Login Form -->
+    <form #loginForm="ngForm" (ngSubmit)="login()">
+      <input type="text" id="login" class="fadeIn second" name="login" placeholder="Login"
+      [(ngModel)]="model.username">
+      <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password"
+      [(ngModel)]="model.password">
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <img src="https://vagasabertas.org/wp-content/uploads/2011/11/vivo-telefonica.png" id="icon" alt="User Icon" />
+    </div>
+
+  </div>
+</div>

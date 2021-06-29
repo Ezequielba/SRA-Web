@@ -24,6 +24,7 @@ constructor(private http: HttpClient) { }
             localStorage.setItem('token', user.token);
             this.decodedToken = jwt_decode(user.token);
             sessionStorage.setItem('username', this.decodedToken.sub);
+            console.log(this.jwtHelper.isTokenExpired(user.token));
           }
         })
     );
@@ -31,6 +32,6 @@ constructor(private http: HttpClient) { }
 
   loggedIn(){
     const token = localStorage.getItem('token')?.toString();
-    return !this.jwtHelper.isTokenExpired(token);
+    return this.jwtHelper.isTokenExpired(token);
   }
 }

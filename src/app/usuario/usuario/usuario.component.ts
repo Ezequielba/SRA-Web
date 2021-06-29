@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UsuarioComponent implements OnInit {
   title = 'SRA-Web';
-
+  nomeUsuario: any;
   currentDataHora: any;
   bodyDeletarUsuario='';
   modoSalvar = 'post';
@@ -31,6 +31,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.nomeUsuario = sessionStorage.getItem('username');
     this.getUsuario();
     this.validation();
   }

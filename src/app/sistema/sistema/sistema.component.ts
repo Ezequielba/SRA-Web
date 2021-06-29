@@ -17,6 +17,8 @@ defineLocale('pt-br', ptBrLocale)
 
 export class SistemaComponent implements OnInit {
   title = 'SRA-Web';
+
+  nomeUsuario: any;
   currentDataHora: any;
   mostrarProcesso?: number;
   mostrarId? = 0;
@@ -50,6 +52,7 @@ export class SistemaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.nomeUsuario = sessionStorage.getItem('username');
     this.getSistema();
     this.validation();
   }
