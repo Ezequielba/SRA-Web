@@ -27,7 +27,11 @@
         <td>{{acesso.hostname}}</td>
         <td>{{acesso.ip}}</td>
         <td>{{acesso.usuario}}</td>
-        <td>{{acesso.senha}}</td>
+        <td (click)="showPassword(acesso)" >
+          <div *ngIf="acessoId == acesso?.id">
+            {{acesso.senha}}
+          </div>
+        </td>
         <td>
             <span class="icon" style="float: right;" onMouseOver="this.style.cursor='pointer'" tooltip="Editar" (click)="editarAcesso(acesso, template)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -103,7 +107,7 @@
 
             <div class="form-group col-md-5">
               <label>Senha</label>
-              <input type="text" class="form-control is-invalid"
+              <input type="password" class="form-control is-invalid"
                 [ngClass]="{'is-invalid': registerForm?.get('senha')?.errors
                 && registerForm?.get('senha')?.touched}"
                 formControlName="senha" placeholder="Insira o senha">
@@ -112,7 +116,7 @@
                 Senha é obrigatório.
               </div>
             </div>
-            <div formGroupName="sistema">
+            <div class="form-group col-md-8" formGroupName="sistema">
               <label>Sistema</label>
               <select id="sistemaId" class="form-control" formControlName="id">
                 <option selected>{{modoSalvar == "put" ? acesso?.sistema?.nome : "Escolha..."}}</option>
@@ -123,14 +127,14 @@
         </form>
       </div>
       <div class="modal-footer d-flex">
-        <button class="btn btn-success ml-auto" (disabled)="!registerForm?.valid" (click)="testeConexao()">
+        <button class="btn btn-success ml-auto" (click)="testeConexao()" title="Testar acesso Linux">
           Testar
         </button>
 
         <button class="btn btn-secondary" (click)="template.hide()">
           Fechar
         </button>
-        <button class="btn btn-primary ml-auto" (disabled)="!registerForm?.valid" (click)="salvarAcesso(template)">
+        <button class="btn btn-primary ml-auto" [disabled]="!registerForm?.valid" (click)="salvarAcesso(template)">
           Salvar {{modoSalvar == "put" ? "Alterações" : ""}}
         </button>
       </div>

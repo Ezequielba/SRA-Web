@@ -46,13 +46,13 @@ export class SistemaComponent implements OnInit {
     private localeService: BsLocaleService,
     ) {
       this.localeService.use('pt-br');
-    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
-    this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
+    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
   }
 
   ngOnInit() {
-    this.nomeUsuario = sessionStorage.getItem('username');
+    this.nomeUsuario = localStorage.getItem('username');
     this.getSistema();
     this.validation();
   }
@@ -264,8 +264,8 @@ export class SistemaComponent implements OnInit {
   validation(){
     this.registerForm = this.fb.group({
       nome: ['', Validators.required],
-      statusSistema: ['', Validators.required],
-      dataAtualizacao: ['', Validators.required],
+      statusSistema: [''],
+      dataAtualizacao: [''],
       usuario: this.fb.group({
         id: [''],
       })

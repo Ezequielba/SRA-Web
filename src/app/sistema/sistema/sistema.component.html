@@ -143,15 +143,20 @@
                value="{{currentDataHora | date: 'dd/MM/yyyy HH:mm:ss'}}" readonly>
             </div>
 
-            <div class="form-group col-md-4" formGroupName="usuario"
-            *ngFor="let _usuario of usuarios;">
-              <label *ngIf="_usuario.nome?.toLowerCase()?.trim() == nomeUsuario?.toLowerCase()?.trim()">
+            <div class="form-group col-md-6" formGroupName="usuario">
+              <label>
                 Usuario
               </label>
-              <select id="usuarioId" class="form-control" formControlName="id"
-              *ngIf="_usuario.nome?.toLowerCase()?.trim() == nomeUsuario?.toLowerCase()?.trim()">
-                <option [selected]="true" value="{{_usuario.id}}" >{{_usuario.nome}}</option>
+              <div *ngFor="let _usuario of usuarios; let i = index">
+                <select id="usuarioId" class="form-control" formControlName="id"
+                *ngIf="_usuario.nome?.toLowerCase()?.trim() == nomeUsuario?.toLowerCase()?.trim()">
+                <option
+                [selected]="true" value="{{_usuario.id}}" >
+                {{_usuario.nome}}
+                </option>
               </select>
+              </div>
+
             </div>
           </div>
         </form>
@@ -160,9 +165,10 @@
         <button class="btn btn-secondary" (click)="template.hide()">
           Fechar
         </button>
-        <button class="btn btn-primary ml-auto" (disabled)="!registerForm?.valid" (click)="salvarSistema(template)">
+        <button class="btn btn-primary ml-auto" [disabled]="!registerForm?.valid" (click)="salvarSistema(template)">
           Salvar {{modoSalvar == "post" ? "" : "Alterações"}}
         </button>
+        <p>{{registerForm?.valid}}</p>
       </div>
     </div>
   </div>

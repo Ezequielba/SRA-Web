@@ -15,6 +15,8 @@ import { Usuario } from 'src/app/_models/usuario';
 export class AcessoComponent implements OnInit {
 
   title = 'SRA-Web';
+
+  acessoId?: number;
   currentDataHora: any;
   bodyDeletarAcesso='';
   modoSalvar = 'post';
@@ -33,8 +35,8 @@ export class AcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
-    this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
+    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    //this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
   }
 
@@ -185,6 +187,18 @@ export class AcessoComponent implements OnInit {
     this.getSistema();
   }
 
+  showPassword(acesso: Acesso){
+
+    if(this.acessoId == undefined){
+      this.acessoId = acesso.id;
+    }
+    else if(this.acessoId == acesso.id){
+      this.acessoId = undefined;
+    }else{
+      this.acessoId = acesso.id;
+    }
+  }
+
   validation(){
     this.registerForm = this.fb.group({
       id: [''],
@@ -193,7 +207,7 @@ export class AcessoComponent implements OnInit {
       usuario: ['', Validators.required],
       senha: ['', Validators.required],
       sistema: this.fb.group({
-        id: [''],
+        id: ['', Validators.required],
       })
     });
   }

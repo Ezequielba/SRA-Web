@@ -17,22 +17,23 @@ export class NavComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.nomeUsuario = sessionStorage.getItem('username');
+    this.nomeUsuario = localStorage.getItem('username');
     //this.userName();
   }
 
   userName(){
-    return sessionStorage.getItem('username');
+    return localStorage.getItem('username');
   }
 
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     this.toastr.show('Log Out');
     this.router.navigate(['/user/login']);
   }
 
   loggedIn(){
-    if(!this.authService.loggedIn()){
+    if(this.authService.loggedIn()){
       localStorage.removeItem('token');
       this.toastr.show('Acesso Expirado!');
       this.router.navigate(['/user/login']);

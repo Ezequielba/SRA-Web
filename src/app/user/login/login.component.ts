@@ -17,12 +17,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if(localStorage.getItem('token') !== null){
-      if(this.authService.loggedIn()){
+      if(!this.authService.loggedIn()){
         this.router.navigate(['/sistema']);
       }
       else{
         localStorage.removeItem('token');
-        sessionStorage.removeItem('username');
+        localStorage.removeItem('username');
         this.toastr.show('Acesso Expirado!');
         this.router.navigate(['/user/login']);
       }
