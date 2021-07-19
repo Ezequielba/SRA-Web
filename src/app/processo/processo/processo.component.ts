@@ -35,8 +35,8 @@ export class ProcessoComponent implements OnInit {
   readonly apiURL : string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private toastr: ToastrService) {
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
-    //this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
   }
 
@@ -230,13 +230,13 @@ export class ProcessoComponent implements OnInit {
       start: ['', Validators.required],
       dataAgendamento: ['', Validators.required],
       tipoProcesso: this.fb.group({
-        id: [''],
+        id: ['', Validators.required],
       }),
       acesso: this.fb.group({
-        id: [''],
+        id: ['', Validators.required],
       }),
       sistema: this.fb.group({
-        id: [''],
+        id: ['', Validators.required],
       })
     });
   }

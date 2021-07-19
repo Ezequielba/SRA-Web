@@ -38,8 +38,8 @@ export class LogComponent implements OnInit {
 
   constructor(private http: HttpClient, private toastr: ToastrService)
   {
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
-    //this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
   }
 
@@ -170,6 +170,7 @@ export class LogComponent implements OnInit {
   exportarRelatorio(){
   /* table id is passed over here */
     let element = document.getElementById('exportExcel');
+    this.fileName = `Log_${new Date().toDateString}`;
     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
   /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();

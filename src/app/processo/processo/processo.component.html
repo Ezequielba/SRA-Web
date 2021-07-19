@@ -207,7 +207,7 @@
       <button class="btn btn-secondary" (click)="template.hide()">
         Fechar
       </button>
-      <button class="btn btn-primary ml-auto" (disabled)="!registerForm?.valid" (click)="salvarProcesso(template)">
+      <button class="btn btn-primary ml-auto" [disabled]="!registerForm?.valid" (click)="salvarProcesso(template)">
         Salvar {{modoSalvar == "put" ? "Alterações" : ""}}
       </button>
       </div>

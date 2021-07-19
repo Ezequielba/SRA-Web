@@ -79,8 +79,8 @@
 </div>
 
 <br>
-<table class="table">
-  <thead class="table-dark" id="exportExcel">
+<table class="table" id="exportExcel">
+  <thead class="table-dark">
     <tr>
       <th scope="col">ID</th>
       <th scope="col">SISTEMA</th>
@@ -114,10 +114,7 @@
         <pagination-controls  id="foo"
           (pageChange)="p = $event"
           previousLabel="Previous"
-          nextLabel="Next"
-          screenReaderPaginationLabel="Pagination"
-          screenReaderPageLabel="page"
-          screenReaderCurrentLabel="You're on page">
+          nextLabel="Next">
         </pagination-controls>
       </td>
     </tr>

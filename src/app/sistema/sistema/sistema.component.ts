@@ -46,8 +46,8 @@ export class SistemaComponent implements OnInit {
     private localeService: BsLocaleService,
     ) {
       this.localeService.use('pt-br');
-    this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
-    //this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
+    //this.apiURL = 'http://localhost:8081'; //Maquina Ezequiel.
+    this.apiURL = 'http://192.168.0.111:8081'; //Servidor Mestre.
     //this.apiURL = 'http://10.240.3.89:8081'; //Servidor Produção.
   }
 

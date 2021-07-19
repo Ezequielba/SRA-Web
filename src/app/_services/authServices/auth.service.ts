@@ -8,8 +8,8 @@ import jwt_decode from "jwt-decode";
   providedIn: 'root'
 })
 export class AuthService {
-  baseURL = 'http://localhost:8081/';
-  //baseURL = 'http://192.168.0.111:8081/';
+  //baseURL = 'http://localhost:8081/';
+  baseURL = 'http://192.168.0.111:8081/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
 
